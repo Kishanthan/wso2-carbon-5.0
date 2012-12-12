@@ -33,9 +33,9 @@
     <url>http://wso2.org</url>
 
     <modules>
-        <module>org.wso2.carbon.feature.mgt.services/4.0.0</module>
-        <module>org.wso2.carbon.feature.mgt.core/4.0.0</module>
-        <module>org.wso2.carbon.feature.mgt.ui/4.0.0</module>
+        <module>org.wso2.carbon.feature.mgt.services</module>
+        <module>org.wso2.carbon.feature.mgt.core</module>
+        <module>org.wso2.carbon.feature.mgt.ui</module>
     </modules>
 
 </project>

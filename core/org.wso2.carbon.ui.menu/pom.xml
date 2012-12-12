@@ -32,10 +32,10 @@
     <url>http://wso2.org</url>
 
     <modules>
-        <module>org.wso2.carbon.ui.menu.general/4.0.0</module>
-        <module>org.wso2.carbon.ui.menu.registry/4.0.0</module>
-        <module>org.wso2.carbon.ui.menu.governance/4.0.0</module>
-        <module>org.wso2.carbon.ui.menu.tools/4.0.0</module>
+        <module>org.wso2.carbon.ui.menu.general</module>
+        <module>org.wso2.carbon.ui.menu.registry</module>
+        <module>org.wso2.carbon.ui.menu.governance</module>
+        <module>org.wso2.carbon.ui.menu.tools</module>
     </modules>
 
 </project>
