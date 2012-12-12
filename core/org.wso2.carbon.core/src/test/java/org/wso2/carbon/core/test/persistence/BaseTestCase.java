@@ -26,11 +26,11 @@ public class BaseTestCase extends TestCase {
     public void setUp() {
 
         if (System.getProperty("carbon.home") == null) {
-            File file = new File("../../../distribution/kernel/4.0.2/carbon-home");
+            File file = new File("../../distribution/kernel/carbon-home");
             if (file.exists()) {
                 System.setProperty("carbon.home", file.getAbsolutePath());
             } else {
-                file = new File("../../../distribution/kernel/4.0.2carbon-home");
+                file = new File("../../distribution/kernel/carbon-home");
                 if (file.exists()) {
                     System.setProperty("carbon.home", file.getAbsolutePath());
                 }
