@@ -43,8 +43,8 @@
                 <activeByDefault>true</activeByDefault>
             </activation>
             <modules>
-                <module>dependencies</module>
-                <module>service-stubs</module>
+                <!--module>dependencies</module-->
+                <!--module>service-stubs</module-->
                 <module>parent</module>
                 <module>core</module>
                 <module>features</module>
