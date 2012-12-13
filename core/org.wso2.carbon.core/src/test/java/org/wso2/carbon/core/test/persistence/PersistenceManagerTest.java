@@ -40,6 +40,7 @@ import org.wso2.carbon.registry.core.exceptions.RegistryException;
 import org.wso2.carbon.registry.core.internal.RegistryCoreServiceComponent;
 import org.wso2.carbon.registry.core.jdbc.InMemoryEmbeddedRegistryService;
 import org.wso2.carbon.utils.WSO2Constants;
+import org.wso2.carbon.utils.multitenancy.MultitenantConstants;
 
 import javax.xml.namespace.QName;
 import java.io.ByteArrayInputStream;
@@ -60,7 +61,10 @@ public class PersistenceManagerTest extends BaseTestCase {
 
     public void setUp() {
         super.setUp();
-
+	//initializing super-tenant flow for this test
+        PrivilegedCarbonContext.startTenantFlow();
+    	PrivilegedCarbonContext.getCurrentContext().setTenantId(MultitenantConstants.SUPER_TENANT_ID);
+    	PrivilegedCarbonContext.getCurrentContext().getTenantDomain(true);
         if (embeddedRegistryService != null) {
             return;
         }
@@ -105,6 +109,7 @@ public class PersistenceManagerTest extends BaseTestCase {
 
     public void tearDown() throws Exception {
         super.tearDown();
+	PrivilegedCarbonContext.endTenantFlow();
     }
 
     public void testNewServiceGroupAddition() throws Exception {
