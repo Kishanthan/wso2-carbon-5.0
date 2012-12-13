@@ -61,7 +61,7 @@ public class PersistenceManagerTest extends BaseTestCase {
 
     public void setUp() {
         super.setUp();
-	//initializing super-tenant flow for this test
+        //initializing super-tenant flow for this test
         PrivilegedCarbonContext.startTenantFlow();
     	PrivilegedCarbonContext.getCurrentContext().setTenantId(MultitenantConstants.SUPER_TENANT_ID);
     	PrivilegedCarbonContext.getCurrentContext().getTenantDomain(true);
@@ -109,7 +109,7 @@ public class PersistenceManagerTest extends BaseTestCase {
 
     public void tearDown() throws Exception {
         super.tearDown();
-	PrivilegedCarbonContext.endTenantFlow();
+        PrivilegedCarbonContext.endTenantFlow();
     }
 
     public void testNewServiceGroupAddition() throws Exception {
