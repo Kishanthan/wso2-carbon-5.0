@@ -75,17 +75,17 @@
 
     <files>
         <!--Copy the version service-->
-        <file>
+        <!--file>
             <source>../../core/org.wso2.carbon.core/target/Version.aar</source>
             <outputDirectory>repository/deployment/server/axis2services</outputDirectory>
             <fileMode>644</fileMode>
-        </file>
+        </file-->
 	<!--Copy the echo service-->
-        <file>
+        <!--file>
             <source>../../core/org.wso2.carbon.core/target/Echo.aar</source>
             <outputDirectory>repository/deployment/server/axis2services</outputDirectory>
             <fileMode>644</fileMode>
-        </file>
+        </file-->
 
         <file>
             <source>carbon-home/repository/conf/etc/launch.ini</source>
@@ -137,7 +137,7 @@
                 <include>org.apache.axis2:addressing:mar</include>
             </includes>
         </dependencySet>
-        <dependencySet>
+        <!--dependencySet>
             <outputDirectory>webapp-mode/WEB-INF/lib</outputDirectory>
             <includes>
                 <include>org.wso2.carbon:org.wso2.carbon.bridge:jar</include>
@@ -149,6 +149,6 @@
                 <include>org.wso2.carbon:org.wso2.carbon.servletbridge:jar</include>
                 <include>org.wso2.carbon:org.wso2.carbon.http.bridge:jar</include>
             </includes>
-        </dependencySet>
+        </dependencySet-->
     </dependencySets>
 </assembly>
