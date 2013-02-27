@@ -172,9 +172,9 @@
                             <publishArtifacts>true</publishArtifacts>
                             <publishArtifactRepository>true</publishArtifactRepository>
                             <featureArtifacts>
-                                <!--featureArtifactDef>
-                                    org.wso2.carbon:org.wso2.carbon.core.feature:4.1.0-SNAPSHOT
-                                </featureArtifactDef-->
+                                <featureArtifactDef>
+                                    org.wso2.carbon:org.wso2.carbon.core.server.feature:5.0.0-SNAPSHOT
+                                </featureArtifactDef>
                                 <featureArtifactDef>
                                     org.wso2.carbon:org.wso2.carbon.core.runtime.feature:5.0.0-SNAPSHOT
                                 </featureArtifactDef>
@@ -210,7 +210,7 @@
                             <profile>WSO2CarbonProfile</profile>
                         </configuration>
                     </execution>
-                    <!--execution>
+                    <execution>
                         <id>feature-installation</id>
                         <phase>package</phase>
                         <goals>
@@ -224,12 +224,12 @@
                             <deleteOldProfileFiles>true</deleteOldProfileFiles>
                             <features>
                                 <feature>
-                                    <id>org.wso2.carbon.core.feature.group</id>
-                                    <version>4.1.0-SNAPSHOT</version>
+                                    <id>org.wso2.carbon.core.server.feature.group</id>
+                                    <version>5.0.0-SNAPSHOT</version>
                                 </feature>
                             </features>
                         </configuration>
-                    </execution-->
+                    </execution>
                 </executions>
             </plugin>
             <plugin>
