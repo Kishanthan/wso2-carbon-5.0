@@ -23,11 +23,11 @@ import org.apache.commons.logging.LogFactory;
 import org.osgi.framework.ServiceRegistration;
 import org.osgi.service.component.ComponentContext;
 import org.wso2.carbon.api.SecretCallbackHandlerService;
-/*import org.wso2.carbon.base.CarbonBaseUtils;
+import org.wso2.carbon.base.CarbonBaseUtils;
 import org.wso2.carbon.base.ServerConfiguration;
 import org.wso2.carbon.base.ServerConfigurationException;
 import org.wso2.carbon.api.ServerConfigurationService;
-import org.wso2.carbon.exception.CarbonException;*/
+import org.wso2.carbon.exception.CarbonException;
 
 import java.io.*;
 
@@ -43,7 +43,7 @@ public class CarbonBaseServiceComponent {
 
     public void activate(ComponentContext componentContext) throws Exception {
 
-        /*ServerConfiguration carbonServerConfiguration = ServerConfiguration.getInstance();
+        ServerConfiguration carbonServerConfiguration = ServerConfiguration.getInstance();
         initServerConfiguration(carbonServerConfiguration);
         String portOffset = System.getProperty("portOffset",
                 carbonServerConfiguration.getFirstProperty("Ports.Offset"));
@@ -51,7 +51,7 @@ public class CarbonBaseServiceComponent {
         //NIO transport make use of this system property
         System.setProperty("portOffset", portOffset);
         //register carbon server confg as an OSGi service
-        registration = componentContext.getBundleContext().registerService(ServerConfigurationService.class.getName(), carbonServerConfiguration, null);*/
+        registration = componentContext.getBundleContext().registerService(ServerConfigurationService.class.getName(), carbonServerConfiguration, null);
 
     }
 
@@ -67,7 +67,7 @@ public class CarbonBaseServiceComponent {
         registration.unregister();
     }
 
-    /*private void initServerConfiguration(ServerConfiguration carbonServerConfiguration) throws CarbonException {
+    private void initServerConfiguration(ServerConfiguration carbonServerConfiguration) throws CarbonException {
         File carbonXML = new File(CarbonBaseUtils.getServerXml());
         InputStream in = null;
         try {
@@ -88,6 +88,6 @@ public class CarbonBaseServiceComponent {
                 }
             }
         }
-    }*/
+    }
 
 }

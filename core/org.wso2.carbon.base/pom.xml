@@ -55,6 +55,7 @@
                         <Import-Package>
                             org.wso2.carbon.logging.*,
                             org.wso2.carbon.api.*,
+                            org.wso2.carbon.exception.*,
                             *;resolution:=optional
                         </Import-Package>
                     </instructions>

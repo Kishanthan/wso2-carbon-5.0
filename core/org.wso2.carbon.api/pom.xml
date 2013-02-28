@@ -45,7 +45,8 @@
                         <Bundle-Name>${project.artifactId}</Bundle-Name>
                         <Export-Package>
                             org.wso2.carbon.api.*; version="1.0.0",
-                            org.wso2.carbon.constants.*;version="1.0.0"
+                            org.wso2.carbon.constants.*;version="1.0.0",
+                            org.wso2.carbon.exception.*;version="1.0.0"
                         </Export-Package>
                         <Import-Package>*;resolution:=optional</Import-Package>
                     </instructions>
