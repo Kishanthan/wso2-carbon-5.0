@@ -18,6 +18,7 @@
  */
 package org.wso2.carbon.securevault;
 
+import org.wso2.carbon.api.SecretCallbackHandlerService;
 import org.wso2.securevault.secret.SecretCallbackHandler;
 
 /**

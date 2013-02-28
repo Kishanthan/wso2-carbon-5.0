@@ -20,10 +20,10 @@ package org.wso2.carbon.securevault.internal;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.wso2.carbon.api.SecretCallbackHandlerService;
 import org.wso2.securevault.secret.SecretManager;
 import org.osgi.framework.ServiceRegistration;
 import org.osgi.service.component.ComponentContext;
-import org.wso2.carbon.securevault.SecretCallbackHandlerService;
 import org.wso2.carbon.securevault.SecretCallbackHandlerServiceImpl;
 import org.wso2.carbon.securevault.SecretManagerInitializer;
 

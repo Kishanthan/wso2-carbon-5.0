@@ -58,6 +58,8 @@
                             </adviceFile>
                             <bundles>
                                 <bundleDef>org.wso2.carbon:org.wso2.carbon.logging:5.0.0-SNAPSHOT</bundleDef>
+                                <bundleDef>org.wso2.carbon:org.wso2.carbon.api:5.0.0-SNAPSHOT</bundleDef>
+                                <bundleDef>org.wso2.carbon:org.wso2.carbon.base:5.0.0-SNAPSHOT</bundleDef>
                             </bundles>
                         </configuration>
                     </execution>
