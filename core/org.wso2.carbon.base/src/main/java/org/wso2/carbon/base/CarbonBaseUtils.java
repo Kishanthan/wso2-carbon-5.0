@@ -126,4 +126,17 @@ public class CarbonBaseUtils {
         }
         return carbonHome;
     }
+
+    public static String getCarbonRepositoryLocation() {
+        String carbonRepoLocation = System.
+                getProperty(CarbonBaseConstants.CARBON_REPOSITORY_LOCATION);
+
+        if (carbonRepoLocation == null) {
+            carbonRepoLocation = getCarbonHome() + File.separator + "repository" +
+                                 File.separator + "deployment" + File.separator + "server";
+            System.setProperty(CarbonBaseConstants.CARBON_REPOSITORY_LOCATION, carbonRepoLocation);
+        }
+
+        return carbonRepoLocation;
+    }
 }

@@ -6,6 +6,7 @@ public class CarbonBaseConstants {
     public static final String CARBON_HOME = "carbon.home";
     public static final String CARBON_HOME_ENV = "CARBON_HOME";
     public static final String AXIS2_CONFIG_REPO_LOCATION = "Axis2Config.RepositoryLocation";
+    public static final String CARBON_REPOSITORY_LOCATION = "carbon.repository.location";
 
     /**
      * Remove default constructor and make it not available to initialize.

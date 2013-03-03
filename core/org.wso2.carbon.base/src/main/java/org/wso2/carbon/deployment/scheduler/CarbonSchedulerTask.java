@@ -39,7 +39,8 @@ public class CarbonSchedulerTask {
     }
 
     private void checkRepository() {
-        repositoryListener.start();
+        repositoryListener.checkArtifacts();
+        repositoryListener.update();
     }
 
     /**

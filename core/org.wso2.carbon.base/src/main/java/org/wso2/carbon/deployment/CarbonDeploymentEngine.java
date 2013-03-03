@@ -124,7 +124,8 @@ public class CarbonDeploymentEngine implements CarbonDeploymentService {
     }
 
     /**
-     *
+     * Start the repository listener and scheduler task and load artifacts to the deployment engine
+     * to be deployed
      *
      */
     public void loadArtifacts() {
