@@ -22,19 +22,12 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.osgi.framework.ServiceRegistration;
 import org.osgi.service.component.ComponentContext;
-import org.wso2.carbon.api.SecretCallbackHandlerService;
-/*import org.wso2.carbon.base.CarbonBaseUtils;
-import org.wso2.carbon.base.ServerConfiguration;
-import org.wso2.carbon.base.ServerConfigurationException;
-import org.wso2.carbon.api.ServerConfigurationService;
-import org.wso2.carbon.exception.CarbonException;*/
-
-import java.io.*;
+import org.wso2.carbon.api.SecureVaultService;
 
 /**
  * @scr.component name="carbon.base.service.component" immediate="true"
- * @scr.reference name="secure.vault.service" interface="org.wso2.carbon.api.SecretCallbackHandlerService"
- * cardinality="1..1" policy="dynamic" bind="setSecretCallbackHandlerService"  unbind="unsetSecretCallbackHandlerService"
+ * @scr.reference name="secure.vault.service" interface="org.wso2.carbon.api.SecureVaultService"
+ * cardinality="1..1" policy="dynamic" bind="setSecureVaultService"  unbind="unsetSecureVaultService"
  */
 public class CarbonBaseServiceComponent {
     private static Log log = LogFactory.getLog(CarbonBaseServiceComponent.class);
@@ -55,12 +48,12 @@ public class CarbonBaseServiceComponent {
 
     }
 
-    protected void setSecretCallbackHandlerService(SecretCallbackHandlerService secretCallbackHandlerService) {
-         dataHolder.setSecretCallbackHandlerService(secretCallbackHandlerService);
+    protected void setSecureVaultService(SecureVaultService secureVaultService) {
+         dataHolder.setSecureVaultService(secureVaultService);
     }
 
-    protected void unsetSecretCallbackHandlerService(SecretCallbackHandlerService secretCallbackHandlerService) {
-         dataHolder.setSecretCallbackHandlerService(null);
+    protected void unsetSecureVaultService(SecureVaultService secureVaultService) {
+         dataHolder.setSecureVaultService(null);
     }
 
     public void deactivate(ComponentContext componentContext) throws Exception {
