@@ -400,6 +400,11 @@
                 <version>${version.equinox.ds}</version>
             </dependency>
             <dependency>
+                <groupId>javax.enterprise</groupId>
+                <artifactId>cdi-api</artifactId>
+                <version>1.0-SP4</version>
+            </dependency>
+            <dependency>
                 <groupId>org.eclipse.equinox</groupId>
                 <artifactId>org.eclipse.equinox.launcher</artifactId>
                 <version>${version.equinox.launcher}</version>
