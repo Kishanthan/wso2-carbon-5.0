@@ -17,36 +17,18 @@
 */
 package org.wso2.carbon.context.internal;
 
-import net.sf.jsr107cache.Cache;
-import net.sf.jsr107cache.CacheException;
-import net.sf.jsr107cache.CacheFactory;
-import net.sf.jsr107cache.CacheManager;
+
 import org.apache.axiom.om.OMElement;
-import org.apache.axis2.context.ConfigurationContext;
-import org.apache.axis2.context.MessageContext;
-import org.apache.axis2.description.Parameter;
-import org.apache.axis2.engine.AxisConfiguration;
-import org.apache.axis2.transport.http.HTTPConstants;
-import org.apache.axis2.util.XMLUtils;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.wso2.carbon.CarbonConstants;
-import org.wso2.carbon.base.DiscoveryService;
-import org.wso2.carbon.base.UnloadTenantTask;
-import org.wso2.carbon.caching.core.CacheConfiguration;
-import org.wso2.carbon.caching.core.CarbonCacheManager;
-import org.wso2.carbon.queuing.CarbonQueue;
-import org.wso2.carbon.queuing.CarbonQueueManager;
-import org.wso2.carbon.queuing.QueuingException;
+import org.wso2.carbon.constants.MultitenantConstants;
+import org.wso2.carbon.constants.ServerConstants;
 import org.wso2.carbon.registry.api.Registry;
 import org.wso2.carbon.user.api.UserRealm;
 import org.wso2.carbon.user.api.UserRealmService;
 import org.wso2.carbon.user.api.UserStoreException;
-import org.wso2.carbon.utils.CarbonUtils;
-import org.wso2.carbon.utils.ServerConstants;
-import org.wso2.carbon.utils.ThriftSession;
-import org.wso2.carbon.utils.multitenancy.MultitenantCarbonQueueManager;
-import org.wso2.carbon.utils.multitenancy.MultitenantConstants;
+
 
 import javax.naming.Binding;
 import javax.naming.Context;
@@ -71,8 +53,6 @@ import javax.naming.ldap.LdapContext;
 import javax.naming.spi.InitialContextFactory;
 import javax.naming.spi.InitialContextFactoryBuilder;
 import javax.naming.spi.NamingManager;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import javax.xml.namespace.QName;
 import java.io.File;
 import java.lang.ref.WeakReference;
@@ -161,9 +141,6 @@ public final class CarbonContextDataHolder {
 
     private Map<String, Object> properties;
 
-    private static List<UnloadTenantTask> unloadTenantTasks = null;
-
-    private static final AtomicReference<DiscoveryService> discoveryServiceProvider = new AtomicReference<DiscoveryService>();
 
     // stores the current CarbonContext local to the running thread.
     private static ThreadLocal<CarbonContextDataHolder> currentContextHolder = new ThreadLocal<CarbonContextDataHolder>() {
@@ -210,7 +187,7 @@ public final class CarbonContextDataHolder {
         unloadTenantTasks = new LinkedList<UnloadTenantTask>();
         registerUnloadTenantTask(new CarbonContextCleanupTask());
 
-        try {
+        /*try {  TODO: disabled the cache manager instantiation and queue manager instantiation
             MultitenantCarbonCacheManager multitenantCacheManager =
                     new MultitenantCarbonCacheManager();
             CacheManager.setInstance(multitenantCacheManager);
@@ -218,10 +195,10 @@ public final class CarbonContextDataHolder {
             CarbonCacheManager cacheManager;
             log.debug("Loading Cache Configuration");
             configuration.load(
-                    CarbonUtils.getEtcCarbonConfigDirPath() + File.separator + "cache.xml");
+                    ContextUtils.getEtcCarbonConfigDirPath() + File.separator + "cache.xml");
             cacheManager = configuration.getCacheManager();
             log.debug("Initializing Cache Manager");
-            cacheManager.initialize(CarbonUtils.getCarbonHome());
+            cacheManager.initialize(ContextUtils.getCarbonHome());
             multitenantCacheManager.setCarbonCacheManager(cacheManager);
         } catch (Exception e) {
             log.error("Error while instantiating the cache. ", e);
@@ -236,7 +213,7 @@ public final class CarbonContextDataHolder {
                 log.debug("there can be a possibility of the same class loading twice and then trying " +
                           "to reset the initial context factory builder", ignore);
             }
-        }
+        }*/
         try {
             NamingManager.
                     setInitialContextFactoryBuilder(new CarbonInitialJNDIContextFactoryBuilder());
@@ -328,7 +305,7 @@ public final class CarbonContextDataHolder {
 
     private static void setupAuthenticator(CarbonAuthenticator authenticator) throws Exception {
         OMElement documentElement = XMLUtils.toOM(
-                CarbonUtils.getServerConfiguration().getDocumentElement());
+                ContextUtils.getServerConfiguration().getDocumentElement());
         OMElement authenticators = documentElement.getFirstChildWithName(
                 new QName(ServerConstants.CARBON_SERVER_XML_NAMESPACE, "Security")).
                 getFirstChildWithName(
@@ -396,10 +373,10 @@ public final class CarbonContextDataHolder {
      * @param configurationContext the Axis2 Configuration Context.
      * @return the CarbonContext holder.
      */
-    public static CarbonContextDataHolder getCurrentCarbonContextHolder(
+    /*public static CarbonContextDataHolder getCurrentCarbonContextHolder(
             ConfigurationContext configurationContext) {
         return getCurrentCarbonContextHolder(configurationContext, true);
-    }
+    }*/
 
     /**
      * This utility method is used to obtain an instance of the CarbonContext available on the Axis
@@ -411,7 +388,7 @@ public final class CarbonContextDataHolder {
      *                             exist.
      * @return the CarbonContext holder if it was existing, or if it was newly added.
      */
-    private static CarbonContextDataHolder getCurrentCarbonContextHolder(
+    /*private static CarbonContextDataHolder getCurrentCarbonContextHolder(
             ConfigurationContext configurationContext, boolean addToConfigContext) {
         if (configurationContext != null) {
             if (configurationContext.getAxisConfiguration() != null) {
@@ -420,7 +397,7 @@ public final class CarbonContextDataHolder {
             }
         }
         return getThreadLocalCarbonContextHolder();
-    }
+    }*/
 
     /**
      * Provides an instance of the current CarbonContext available on the Axis2 Configuration. If an
@@ -430,269 +407,12 @@ public final class CarbonContextDataHolder {
      * @param axisConfiguration the Axis2 Configuration.
      * @return the CarbonContext holder.
      */
-    public static CarbonContextDataHolder getCurrentCarbonContextHolder(
+    /*public static CarbonContextDataHolder getCurrentCarbonContextHolder(
             AxisConfiguration axisConfiguration) {
         return getCurrentCarbonContextHolder(axisConfiguration, true);
-    }
+    }*/
 
-    private static CarbonContextDataHolder getClone() {
-        return new CarbonContextDataHolder(getCurrentCarbonContextHolder());
-    }
-
-    /**
-     * This utility method is used to obtain an instance of the CarbonContext available on the Axis
-     * Configuration. It also accepts an argument explaining whether we need to add the
-     * CarbonContext if it was not already available.
-     *
-     * @param axisConfiguration  the Axis2 Configuration.
-     * @param addToConfiguration whether the CarbonContext should be added if it doesn't already
-     *                           exist.
-     * @return the CarbonContext holder if it was existing, or if it was newly added.
-     */
-    private static CarbonContextDataHolder getCurrentCarbonContextHolder(
-            AxisConfiguration axisConfiguration, boolean addToConfiguration) {
-        Parameter param = axisConfiguration.getParameter(CARBON_CONTEXT_HOLDER);
-        if (param != null && param.getValue() != null) {
-            return (CarbonContextDataHolder) param.getValue();
-        } else if (!addToConfiguration) {
-            return null;
-        }
-        try {
-            CarbonContextDataHolder context = getClone();
-            log.debug("Added CarbonContext to the Axis Configuration");
-            axisConfiguration.addParameter(CARBON_CONTEXT_HOLDER, context);
-            return context;
-        } catch (Exception e) {
-            throw new RuntimeException("Failed to add CarbonContext to the AxisConfiguration.", e);
-        }
-    }
-
-    /**
-     * Provides an instance of the current CarbonContext available on the HTTP Session. If an
-     * instance is not available, this method will first add a new CarbonContext onto the HTTP
-     * Session.
-     *
-     * @param httpSession the HTTP Session.
-     * @return the CarbonContext holder.
-     */
-    public static CarbonContextDataHolder getCurrentCarbonContextHolder(HttpSession httpSession) {
-        return getCurrentCarbonContextHolder(httpSession, true);
-    }
-
-    /**
-     * This utility method is used to obtain an instance of the CarbonContext available on the HTTP
-     * Session. It also accepts an argument explaining whether we need to add the CarbonContext if
-     * it was not already available.
-     *
-     * @param httpSession  the HTTP Session.
-     * @param addToSession whether the CarbonContext should be added if it doesn't already exist.
-     * @return the CarbonContext holder if it was existing, or if it was newly added.
-     */
-    private static CarbonContextDataHolder getCurrentCarbonContextHolder(HttpSession httpSession,
-                                                                         boolean addToSession) {
-        Object contextObject = httpSession.getAttribute(CARBON_CONTEXT_HOLDER);
-        if (contextObject != null) {
-            return (CarbonContextDataHolder) contextObject;
-        } else if (!addToSession) {
-            return null;
-        }
-        CarbonContextDataHolder context = getClone();
-        log.debug("Added CarbonContext to the HTTP Session");
-        httpSession.setAttribute(CARBON_CONTEXT_HOLDER, context);
-        return context;
-    }
-
-    /**
-     * Provides an instance of the current CarbonContext available on the Thrift Session. If an
-     * instance is not available, this method will first add a new CarbonContext onto the Thrift
-     * Session.
-     *
-     * @param thriftSession the Thrift Session.
-     * @return the CarbonContext holder.
-     */
-    public static CarbonContextDataHolder getCurrentCarbonContextHolder(ThriftSession thriftSession) {
-        return getCurrentCarbonContextHolder(thriftSession, true);
-    }
-
-    /**
-     * This utility method is used to obtain an instance of the CarbonContext available on the Thrift
-     * Session. It also accepts an argument explaining whether we need to add the CarbonContext if
-     * it was not already available.
-     *
-     * @param thriftSession the Thirft Session.
-     * @param addToSession  whether the CarbonContext should be added if it doesn't already exist.
-     * @return the CarbonContext holder if it was existing, or if it was newly added.
-     */
-    private static CarbonContextDataHolder getCurrentCarbonContextHolder(ThriftSession thriftSession,
-                                                                         boolean addToSession) {
-        Object contextObject = thriftSession.getSessionCarbonContextHolder();
-        if (contextObject != null) {
-            return (CarbonContextDataHolder) contextObject;
-        } else if (!addToSession) {
-            return null;
-        }
-        CarbonContextDataHolder context = getClone();
-        log.debug("Added CarbonContext to the Thrift Session");
-       //thriftSession.setAttribute(CARBON_CONTEXT_HOLDER, context);
-        return context;
-    }
-
-    /**
-     * Provides an instance of the current CarbonContext available on the Message Context. This
-     * method will lookup the Message Context and see whether a CarbonContext is available on either
-     * the HTTP Session or the Axis2 Configuration available through the Message Context. If an
-     * instance is not available, this method will add it to the HTTP Session if an HTTP Session is
-     * already available. Failing that, it will try to add it to the Axis2 Configuration.
-     *
-     * @param messageContext the Message Context.
-     * @return the CarbonContext holder.
-     */
-    public static CarbonContextDataHolder getCurrentCarbonContextHolder(
-            MessageContext messageContext) {
-        HttpServletRequest request = (HttpServletRequest) messageContext.getProperty(
-                HTTPConstants.MC_HTTP_SERVLETREQUEST);
-        if (request != null) {
-            HttpSession httpSession = request.getSession(false);
-            if (httpSession != null) {
-                CarbonContextDataHolder context = getCurrentCarbonContextHolder(httpSession, false);
-                if (context != null) {
-                    return context;
-                }
-                if (messageContext.getConfigurationContext() != null) {
-                    context = getCurrentCarbonContextHolder(
-                            messageContext.getConfigurationContext(), false);
-                    if (context != null) {
-                        return context;
-                    }
-                }
-                context = getClone();
-                log.debug("Added CarbonContext to the HTTP Session");
-                httpSession.setAttribute(CARBON_CONTEXT_HOLDER, context);
-                return context;
-            }
-        }
-        return getCurrentCarbonContextHolder(messageContext.getConfigurationContext());
-    }
-
-    /**
-     * This method will return the current CarbonContext from the thread-local copy.
-     * If that is not available, then this method will attempt to obtain an instance of a CarbonContext on the Message Context.
-     * This method will lookup the Message Context and see whether a CarbonContext is available on
-     * either the HTTP Session or the Axis2 Configuration available through the Message Context.
-     *
-     * @return the CarbonContext holder.
-     */
-
-    public static CarbonContextDataHolder getCurrentCarbonContextHolder() {
-        try {
-            MessageContext messageContext = MessageContext.getCurrentMessageContext();
-            if (messageContext != null) {
-                return getCurrentCarbonContextHolder(messageContext);
-            } else {
-                return getCurrentCarbonContextHolder((ConfigurationContext) null);
-            }
-        } catch (NullPointerException ignore) {
-            // This is thrown when the message context is not initialized
-            // So return the Threadlocal
-            return getThreadLocalCarbonContextHolder();
-        } catch (NoClassDefFoundError ignore) {
-            // There can be situations where the CarbonContext is accessed, when there is no Axis2
-            // library on the classpath.
-            return getThreadLocalCarbonContextHolder();
-        }
-    }
-
-    /**
-     * This method will always attempt to obtain an instance of the current CarbonContext from the
-     * thread-local copy.
-     *
-     * @return the CarbonContext holder.
-     */
-    public static CarbonContextDataHolder getThreadLocalCarbonContextHolder() {
-        return currentContextHolder.get();
-    }
-
-    /**
-     * This method will set the current multi-tenant queue manager instance.
-     *
-     * @param queueManager the multi-tenant queue manager.
-     * @throws org.wso2.carbon.queuing.QueuingException
-     *          if the operation failed.
-     */
-    public void setQueueManager(MultitenantCarbonQueueManager queueManager)
-            throws QueuingException {
-        CarbonQueueManager manager = CarbonQueueManager.getInstance();
-        if (manager instanceof InternalCarbonQueueManager) {
-            ((InternalCarbonQueueManager) manager).setQueueManager(queueManager);
-        }
-        log.debug("Successfully set the Queue Manager");
-    }
-
-    /**
-     * This method will remove the current multi-tenant queue manager instance.
-     *
-     * @throws QueuingException if the operation failed.
-     */
-    public void removeQueueManager() throws QueuingException {
-        CarbonQueueManager manager = CarbonQueueManager.getInstance();
-        if (manager instanceof InternalCarbonQueueManager) {
-            ((InternalCarbonQueueManager) manager).removeQueueManager();
-        }
-        log.debug("Successfully removed the Queue Manager");
-    }
-
-    // Checks whether the given tenant is a sub-tenant or not.
-    private static boolean isSubTenant(int tenantId) {
-        return (tenantId != MultitenantConstants.SUPER_TENANT_ID &&
-                tenantId != MultitenantConstants.INVALID_TENANT_ID);
-    }
-
-    // A tenant-aware queue manager implementation. This will internally hold an instance of the
-    // {@link MultitenantCarbonQueueManager}.
-    private static class InternalCarbonQueueManager extends CarbonQueueManager {
-
-        private AtomicReference<MultitenantCarbonQueueManager> queueManager =
-                new AtomicReference<MultitenantCarbonQueueManager>();
-
-        public CarbonQueue<?> getQueue(String name) {
-            int tenantId = getCurrentCarbonContextHolder().getTenantId();
-            if (queueManager.get() != null) {
-                if (log.isDebugEnabled()) {
-                    log.debug("Retrieving named queue: " + name);
-                }
-                return queueManager.get().getQueue(name,
-                                                   isSubTenant(tenantId) ?
-                                                   tenantId : MultitenantConstants.SUPER_TENANT_ID);
-            }
-            return null;
-        }
-
-        public synchronized void setQueueManager(MultitenantCarbonQueueManager queueManager)
-                throws QueuingException {
-            CarbonUtils.checkSecurity();
-            if (getCurrentCarbonContextHolder().getTenantId() !=
-                MultitenantConstants.SUPER_TENANT_ID) {
-                throw new QueuingException("Only the super-tenant can set the queue manager.");
-            }
-            InternalCarbonQueueManager carbonQueueManager = null;
-            if (this.queueManager.get() != null) {
-                throw new QueuingException("The queue manager has already been set.");
-            }
-            this.queueManager.set(queueManager);
-        }
-
-        public synchronized void removeQueueManager() throws QueuingException {
-            CarbonUtils.checkSecurity();
-            if (getCurrentCarbonContextHolder().getTenantId() !=
-                MultitenantConstants.SUPER_TENANT_ID) {
-                throw new QueuingException("Only the super-tenant can remove the queue manager.");
-            }
-            this.queueManager.set(null);
-        }
-    }
-
-    // A tenant-aware cache manager implementation.
-    private static class MultitenantCarbonCacheManager extends CacheManager implements CarbonCacheManager {
+    /*private static class MultitenantCarbonCacheManager extends CacheManager implements CarbonCacheManager {
 
         private String getNameForTenant(String name) {
             int tenantId = getCurrentCarbonContextHolder().getTenantId();
@@ -700,7 +420,7 @@ public final class CarbonContextDataHolder {
                 // Tenants can only use the default cache for their work. The super-tenant and the
                 // system may create named caches as needed. However, we allow tenants to create
                 // registry path caches, and also authorization caches in the UM kernel.
-                CarbonUtils.checkSecurity();
+                ContextUtils.checkSecurity();
             }
             String cacheName = (name != null) ? name : carbonCacheManager.getDefaultCacheName();
             return (isSubTenant(tenantId)) ? cacheName + "$" + tenantId : cacheName;
@@ -781,14 +501,357 @@ public final class CarbonContextDataHolder {
             // TODO Auto-generated method stub
             return null;
         }
+    }*/
+
+    /**
+     * This utility method is used to obtain an instance of the CarbonContext available on the Axis
+     * Configuration. It also accepts an argument explaining whether we need to add the
+     * CarbonContext if it was not already available.
+     *
+     * @param axisConfiguration  the Axis2 Configuration.
+     * @param addToConfiguration whether the CarbonContext should be added if it doesn't already
+     *                           exist.
+     * @return the CarbonContext holder if it was existing, or if it was newly added.
+     */
+    /*private static CarbonContextDataHolder getCurrentCarbonContextHolder(
+            AxisConfiguration axisConfiguration, boolean addToConfiguration) {
+        Parameter param = axisConfiguration.getParameter(CARBON_CONTEXT_HOLDER);
+        if (param != null && param.getValue() != null) {
+            return (CarbonContextDataHolder) param.getValue();
+        } else if (!addToConfiguration) {
+            return null;
+        }
+        try {
+            CarbonContextDataHolder context = getClone();
+            log.debug("Added CarbonContext to the Axis Configuration");
+            axisConfiguration.addParameter(CARBON_CONTEXT_HOLDER, context);
+            return context;
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to add CarbonContext to the AxisConfiguration.", e);
+        }
+    }*/
+
+    /**
+     * Provides an instance of the current CarbonContext available on the HTTP Session. If an
+     * instance is not available, this method will first add a new CarbonContext onto the HTTP
+     * Session.
+     *
+     * @param httpSession the HTTP Session.
+     * @return the CarbonContext holder.
+     */
+    /*public static CarbonContextDataHolder getCurrentCarbonContextHolder(HttpSession httpSession) {
+        return getCurrentCarbonContextHolder(httpSession, true);
+    }*/
+
+    /**
+     * This utility method is used to obtain an instance of the CarbonContext available on the HTTP
+     * Session. It also accepts an argument explaining whether we need to add the CarbonContext if
+     * it was not already available.
+     *
+     * @param httpSession  the HTTP Session.
+     * @param addToSession whether the CarbonContext should be added if it doesn't already exist.
+     * @return the CarbonContext holder if it was existing, or if it was newly added.
+     */
+    /*private static CarbonContextDataHolder getCurrentCarbonContextHolder(HttpSession httpSession,
+                                                                         boolean addToSession) {
+        Object contextObject = httpSession.getAttribute(CARBON_CONTEXT_HOLDER);
+        if (contextObject != null) {
+            return (CarbonContextDataHolder) contextObject;
+        } else if (!addToSession) {
+            return null;
+        }
+        CarbonContextDataHolder context = getClone();
+        log.debug("Added CarbonContext to the HTTP Session");
+        httpSession.setAttribute(CARBON_CONTEXT_HOLDER, context);
+        return context;
+    }*/
+
+    /**
+     * Provides an instance of the current CarbonContext available on the Thrift Session. If an
+     * instance is not available, this method will first add a new CarbonContext onto the Thrift
+     * Session.
+     *
+     * @param thriftSession the Thrift Session.
+     * @return the CarbonContext holder.
+     */
+    /*public static CarbonContextDataHolder getCurrentCarbonContextHolder(ThriftSession thriftSession) {
+        return getCurrentCarbonContextHolder(thriftSession, true);
+    }*/
+
+    /**
+     * This utility method is used to obtain an instance of the CarbonContext available on the Thrift
+     * Session. It also accepts an argument explaining whether we need to add the CarbonContext if
+     * it was not already available.
+     *
+     * @param thriftSession the Thirft Session.
+     * @param addToSession  whether the CarbonContext should be added if it doesn't already exist.
+     * @return the CarbonContext holder if it was existing, or if it was newly added.
+     */
+   /* private static CarbonContextDataHolder getCurrentCarbonContextHolder(ThriftSession thriftSession,
+                                                                         boolean addToSession) {
+        Object contextObject = thriftSession.getSessionCarbonContextHolder();
+        if (contextObject != null) {
+            return (CarbonContextDataHolder) contextObject;
+        } else if (!addToSession) {
+            return null;
+        }
+        CarbonContextDataHolder context = getClone();
+        log.debug("Added CarbonContext to the Thrift Session");
+       //thriftSession.setAttribute(CARBON_CONTEXT_HOLDER, context);
+        return context;
+    }*/
+
+    /**
+     * Provides an instance of the current CarbonContext available on the Message Context. This
+     * method will lookup the Message Context and see whether a CarbonContext is available on either
+     * the HTTP Session or the Axis2 Configuration available through the Message Context. If an
+     * instance is not available, this method will add it to the HTTP Session if an HTTP Session is
+     * already available. Failing that, it will try to add it to the Axis2 Configuration.
+     *
+     * @param messageContext the Message Context.
+     * @return the CarbonContext holder.
+     */
+    /*public static CarbonContextDataHolder getCurrentCarbonContextHolder(
+            MessageContext messageContext) {
+        HttpServletRequest request = (HttpServletRequest) messageContext.getProperty(
+                HTTPConstants.MC_HTTP_SERVLETREQUEST);
+        if (request != null) {
+            HttpSession httpSession = request.getSession(false);
+            if (httpSession != null) {
+                CarbonContextDataHolder context = getCurrentCarbonContextHolder(httpSession, false);
+                if (context != null) {
+                    return context;
+                }
+                if (messageContext.getConfigurationContext() != null) {
+                    context = getCurrentCarbonContextHolder(
+                            messageContext.getConfigurationContext(), false);
+                    if (context != null) {
+                        return context;
+                    }
+                }
+                context = getClone();
+                log.debug("Added CarbonContext to the HTTP Session");
+                httpSession.setAttribute(CARBON_CONTEXT_HOLDER, context);
+                return context;
+            }
+        }
+        return getCurrentCarbonContextHolder(messageContext.getConfigurationContext());
+    }*/
+
+    /**
+     * This method will return the current CarbonContext from the thread-local copy.
+     * If that is not available, then this method will attempt to obtain an instance of a CarbonContext on the Message Context.
+     * This method will lookup the Message Context and see whether a CarbonContext is available on
+     * either the HTTP Session or the Axis2 Configuration available through the Message Context.
+     *
+     * @return the CarbonContext holder.
+     */
+
+    public static CarbonContextDataHolder getCurrentCarbonContextHolder() {
+        /*try {
+            MessageContext messageContext = MessageContext.getCurrentMessageContext();
+            if (messageContext != null) {
+                return getCurrentCarbonContextHolder(messageContext);
+            } else {
+                return getCurrentCarbonContextHolder((ConfigurationContext) null);
+            }
+        } catch (NullPointerException ignore) {*/
+            // This is thrown when the message context is not initialized
+            // So return the Threadlocal
+            return getThreadLocalCarbonContextHolder();
+        /*} catch (NoClassDefFoundError ignore) {
+            // There can be situations where the CarbonContext is accessed, when there is no Axis2
+            // library on the classpath.
+            return getThreadLocalCarbonContextHolder();
+        }*/
     }
+
+    /**
+     * This method will always attempt to obtain an instance of the current CarbonContext from the
+     * thread-local copy.
+     *
+     * @return the CarbonContext holder.
+     */
+    public static CarbonContextDataHolder getThreadLocalCarbonContextHolder() {
+        return currentContextHolder.get();
+    }
+
+    /**
+     * This method will set the current multi-tenant queue manager instance.
+     *
+     * @param queueManager the multi-tenant queue manager.
+     * @throws org.wso2.carbon.queuing.QueuingException
+     *          if the operation failed.
+     */
+    /*public void setQueueManager(MultitenantCarbonQueueManager queueManager)
+            throws QueuingException {
+        CarbonQueueManager manager = CarbonQueueManager.getInstance();
+        if (manager instanceof InternalCarbonQueueManager) {
+            ((InternalCarbonQueueManager) manager).setQueueManager(queueManager);
+        }
+        log.debug("Successfully set the Queue Manager");
+    }*/
+
+    /**
+     * This method will remove the current multi-tenant queue manager instance.
+     *
+     */
+    /*public void removeQueueManager() throws QueuingException {
+        CarbonQueueManager manager = CarbonQueueManager.getInstance();
+        if (manager instanceof InternalCarbonQueueManager) {
+            ((InternalCarbonQueueManager) manager).removeQueueManager();
+        }
+        log.debug("Successfully removed the Queue Manager");
+    }*/
+
+    // Checks whether the given tenant is a sub-tenant or not.
+    private static boolean isSubTenant(int tenantId) {
+        return (tenantId != MultitenantConstants.SUPER_TENANT_ID &&
+                tenantId != MultitenantConstants.INVALID_TENANT_ID);
+    }
+
+    // A tenant-aware queue manager implementation. This will internally hold an instance of the
+    // {@link MultitenantCarbonQueueManager}.
+    /*private static class InternalCarbonQueueManager extends CarbonQueueManager {
+
+        private AtomicReference<MultitenantCarbonQueueManager> queueManager =
+                new AtomicReference<MultitenantCarbonQueueManager>();
+
+        public CarbonQueue<?> getQueue(String name) {
+            int tenantId = getCurrentCarbonContextHolder().getTenantId();
+            if (queueManager.get() != null) {
+                if (log.isDebugEnabled()) {
+                    log.debug("Retrieving named queue: " + name);
+                }
+                return queueManager.get().getQueue(name,
+                                                   isSubTenant(tenantId) ?
+                                                   tenantId : MultitenantConstants.SUPER_TENANT_ID);
+            }
+            return null;
+        }
+
+        public synchronized void setQueueManager(MultitenantCarbonQueueManager queueManager)
+                throws QueuingException {
+            ContextUtils.checkSecurity();
+            if (getCurrentCarbonContextHolder().getTenantId() !=
+                MultitenantConstants.SUPER_TENANT_ID) {
+                throw new QueuingException("Only the super-tenant can set the queue manager.");
+            }
+            InternalCarbonQueueManager carbonQueueManager = null;
+            if (this.queueManager.get() != null) {
+                throw new QueuingException("The queue manager has already been set.");
+            }
+            this.queueManager.set(queueManager);
+        }
+
+        public synchronized void removeQueueManager() throws QueuingException {
+            ContextUtils.checkSecurity();
+            if (getCurrentCarbonContextHolder().getTenantId() !=
+                MultitenantConstants.SUPER_TENANT_ID) {
+                throw new QueuingException("Only the super-tenant can remove the queue manager.");
+            }
+            this.queueManager.set(null);
+        }
+    }*/
+
+    // A tenant-aware cache manager implementation.
+    /*private static class MultitenantCarbonCacheManager extends CacheManager implements CarbonCacheManager {
+
+        private String getNameForTenant(String name) {
+            int tenantId = getCurrentCarbonContextHolder().getTenantId();
+            if (name != null) {
+                // Tenants can only use the default cache for their work. The super-tenant and the
+                // system may create named caches as needed. However, we allow tenants to create
+                // registry path caches, and also authorization caches in the UM kernel.
+                ContextUtils.checkSecurity();
+            }
+            String cacheName = (name != null) ? name : carbonCacheManager.getDefaultCacheName();
+            return (isSubTenant(tenantId)) ? cacheName + "$" + tenantId : cacheName;
+        }
+
+        private CarbonCacheManager carbonCacheManager;
+        private CacheCleanupTask cacheCleanupTask;
+
+        public void setCarbonCacheManager(CarbonCacheManager carbonCacheManager) {
+            this.carbonCacheManager = carbonCacheManager;
+            cacheCleanupTask = new CacheCleanupTask(carbonCacheManager);
+            registerUnloadTenantTask(cacheCleanupTask);
+        }
+
+        public Cache getCache(String cacheName) {
+            Cache cache = carbonCacheManager.getCache(getNameForTenant(cacheName));
+            if (cache != null) {
+                cacheCleanupTask.register(getCurrentCarbonContextHolder().getTenantId(),
+                                          getNameForTenant(cacheName));
+            }
+            if (log.isDebugEnabled()) {
+                log.debug("Retrieving named cache: " + cacheName);
+            }
+            return cache;
+        }
+
+        public void registerCache(String cacheName, Cache cache) {
+            if (log.isDebugEnabled()) {
+                log.debug("Registering named cache: " + getNameForTenant(cacheName));
+            }
+            carbonCacheManager.registerCache(getNameForTenant(cacheName), cache);
+        }
+
+        public CacheFactory getCacheFactory() throws CacheException {
+            return carbonCacheManager.getCacheFactory();
+        }
+
+        private static class CacheCleanupTask implements UnloadTenantTask<String> {
+
+            private CarbonCacheManager carbonCacheManager;
+            private Map<Integer, ArrayList<String>> cacheNames
+                    = new ConcurrentHashMap<Integer, ArrayList<String>>();
+
+            public CacheCleanupTask(CarbonCacheManager carbonCacheManager) {
+                this.carbonCacheManager = carbonCacheManager;
+            }
+
+            public void register(int tenantId, String cacheName) {
+                ArrayList<String> list = cacheNames.get(tenantId);
+                if (list == null) {
+                    list = new ArrayList<String>();
+                    list.add(cacheName);
+                    cacheNames.put(tenantId, list);
+                } else if (!list.contains(cacheName)) {
+                    list.add(cacheName);
+                }
+            }
+
+            public void cleanup(int tenantId) {
+                ArrayList<String> list = cacheNames.remove(tenantId);
+                if (list != null) {
+                    for (String cacheName : list) {
+                        carbonCacheManager.registerCache(cacheName, null);
+                    }
+                    list.clear();
+                }
+            }
+        }
+
+        @Override
+        public void initialize(String carbonHome) {
+            // TODO Auto-generated method stub
+
+        }
+
+        @Override
+        public String getDefaultCacheName() {
+            // TODO Auto-generated method stub
+            return null;
+        }
+    }*/
 
     // A tenant-aware JNDI Initial Context Factory Builder implementation.
     private static class CarbonInitialJNDIContextFactoryBuilder implements
                                                                 InitialContextFactoryBuilder {
 
         private static final String defaultInitialContextFactory =
-                CarbonUtils.getServerConfiguration().getFirstProperty(
+                ContextUtils.getServerConfiguration().getFirstProperty(
                         "JNDI.DefaultInitialContextFactory");
 
         public InitialContextFactory createInitialContextFactory(Hashtable<?, ?> h)
@@ -849,10 +912,10 @@ public final class CarbonContextDataHolder {
             contextCleanupTask = new ContextCleanupTask();
             registerUnloadTenantTask(contextCleanupTask);
             superTenantOnlyUrlContextSchemes = Arrays.asList(
-                    CarbonUtils.getServerConfiguration().getProperties(
+                    ContextUtils.getServerConfiguration().getProperties(
                             "JNDI.Restrictions.SuperTenantOnly.UrlContexts.UrlContext.Scheme"));
             allTenantUrlContextSchemes = Arrays.asList(
-                    CarbonUtils.getServerConfiguration().getProperties(
+                    ContextUtils.getServerConfiguration().getProperties(
                             "JNDI.Restrictions.AllTenants.UrlContexts.UrlContext.Scheme"));
         }
 
@@ -1373,18 +1436,18 @@ public final class CarbonContextDataHolder {
 
         public void addNamingListener(Name name, int i, NamingListener namingListener)
                 throws NamingException {
-            CarbonUtils.checkSecurity();
+            ContextUtils.checkSecurity();
             getEventContext(name).addNamingListener(name, i, namingListener);
         }
 
         public void addNamingListener(String s, int i, NamingListener namingListener)
                 throws NamingException {
-            CarbonUtils.checkSecurity();
+            ContextUtils.checkSecurity();
             getEventContext(s).addNamingListener(s, i, namingListener);
         }
 
         public void removeNamingListener(NamingListener namingListener) throws NamingException {
-            CarbonUtils.checkSecurity();
+            ContextUtils.checkSecurity();
             getEventContext().removeNamingListener(namingListener);
         }
 
@@ -1411,21 +1474,21 @@ public final class CarbonContextDataHolder {
 
         public void addNamingListener(Name name, String filter, SearchControls searchControls,
                                       NamingListener namingListener) throws NamingException {
-            CarbonUtils.checkSecurity();
+            ContextUtils.checkSecurity();
             getEventDirContext(name)
                     .addNamingListener(name, filter, searchControls, namingListener);
         }
 
         public void addNamingListener(String s, String filter, SearchControls searchControls,
                                       NamingListener namingListener) throws NamingException {
-            CarbonUtils.checkSecurity();
+            ContextUtils.checkSecurity();
             getEventDirContext(s).addNamingListener(s, filter, searchControls, namingListener);
         }
 
         public void addNamingListener(Name name, String filter, Object[] objects,
                                       SearchControls searchControls, NamingListener namingListener)
                 throws NamingException {
-            CarbonUtils.checkSecurity();
+            ContextUtils.checkSecurity();
             getEventDirContext(name).addNamingListener(name, filter, objects, searchControls,
                                                        namingListener);
         }
@@ -1433,7 +1496,7 @@ public final class CarbonContextDataHolder {
         public void addNamingListener(String s, String filter, Object[] objects,
                                       SearchControls searchControls, NamingListener namingListener)
                 throws NamingException {
-            CarbonUtils.checkSecurity();
+            ContextUtils.checkSecurity();
             getEventDirContext(s).addNamingListener(s, filter, objects, searchControls,
                                                     namingListener);
         }
@@ -1686,7 +1749,7 @@ public final class CarbonContextDataHolder {
      * @param username the username.
      */
     public void setUsername(String username) {
-        CarbonUtils.checkSecurity();
+        ContextUtils.checkSecurity();
         this.username = username;
     }
 

@@ -18,16 +18,12 @@
  */
 package org.wso2.carbon.context;
 
-import net.sf.jsr107cache.Cache;
-import net.sf.jsr107cache.CacheManager;
 import org.wso2.carbon.base.CarbonBaseUtils;
+import org.wso2.carbon.constants.MultitenantConstants;
 import org.wso2.carbon.context.internal.CarbonContextDataHolder;
 import org.wso2.carbon.context.internal.OSGiDataHolder;
-import org.wso2.carbon.queuing.CarbonQueue;
-import org.wso2.carbon.queuing.CarbonQueueManager;
 import org.wso2.carbon.registry.api.Registry;
 import org.wso2.carbon.user.api.UserRealm;
-import org.wso2.carbon.utils.multitenancy.MultitenantConstants;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -207,18 +203,18 @@ public class CarbonContext {
      *
      * @return the cache instance.
      */
-    public Cache getCache(String cacheName) {
+    /*public Cache getCache(String cacheName) {
         return CacheManager.getInstance().getCache(cacheName);
-    }
+    }*/
     
     /**
      * Method to obtain the default cache instance.
      *
      * @return the cache instance.
      */
-    public Cache getCache() {
+   /* public Cache getCache() {
         return CacheManager.getInstance().getCache(null);
-    }
+    }*/
 
     /**
      * Method to obtain a named queue instance.
@@ -227,9 +223,9 @@ public class CarbonContext {
      *
      * @return the queue instance.
      */
-    public CarbonQueue<?> getQueue(String name) {
+    /*public CarbonQueue<?> getQueue(String name) {
         return CarbonQueueManager.getInstance().getQueue(name);
-    }
+    }*/
 
     /**
      * Method to obtain a JNDI-context with the given initialization properties.

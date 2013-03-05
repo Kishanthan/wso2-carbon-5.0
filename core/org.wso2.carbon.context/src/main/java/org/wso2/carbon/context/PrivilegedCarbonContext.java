@@ -17,28 +17,19 @@
 */
 package org.wso2.carbon.context;
 
-import net.sf.jsr107cache.Cache;
-import net.sf.jsr107cache.CacheManager;
-import org.apache.axis2.context.ConfigurationContext;
-import org.apache.axis2.context.MessageContext;
-import org.apache.axis2.description.AxisService;
-import org.apache.axis2.engine.AxisConfiguration;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.osgi.framework.BundleContext;
 import org.osgi.util.tracker.ServiceTracker;
+import org.wso2.carbon.constants.MultitenantConstants;
 import org.wso2.carbon.context.internal.CarbonContextDataHolder;
+import org.wso2.carbon.context.internal.ContextUtils;
 import org.wso2.carbon.context.internal.OSGiDataHolder;
 import org.wso2.carbon.registry.api.Registry;
 import org.wso2.carbon.user.api.TenantManager;
 import org.wso2.carbon.user.api.UserRealm;
 import org.wso2.carbon.user.api.UserRealmService;
 import org.wso2.carbon.user.api.UserStoreException;
-import org.wso2.carbon.utils.CarbonUtils;
-import org.wso2.carbon.utils.ThriftSession;
-import org.wso2.carbon.utils.multitenancy.MultitenantConstants;
-
-import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -65,7 +56,7 @@ public class PrivilegedCarbonContext extends CarbonContext {
      * @see CarbonContextDataHolder#startTenantFlow()
      */
     public static void startTenantFlow() {
-        CarbonUtils.checkSecurity();
+        ContextUtils.checkSecurity();
         getThreadLocalCarbonContext().getCarbonContextDataHolder().startTenantFlow();
     }
 
@@ -75,17 +66,17 @@ public class PrivilegedCarbonContext extends CarbonContext {
      * @see CarbonContextDataHolder#endTenantFlow()
      */
     public static void endTenantFlow() {
-        CarbonUtils.checkSecurity();
+        ContextUtils.checkSecurity();
         getThreadLocalCarbonContext().getCarbonContextDataHolder().endTenantFlow();
     }
 
     public static void unloadTenant(int tenantId) {
-        CarbonUtils.checkSecurity();
+        ContextUtils.checkSecurity();
         CarbonContextDataHolder.unloadTenant(tenantId);
     }
 
     public static void destroyCurrentContext() {
-        CarbonUtils.checkSecurity();
+        ContextUtils.checkSecurity();
         CarbonContextDataHolder.destroyCurrentCarbonContextHolder();
     }
 
@@ -95,7 +86,7 @@ public class PrivilegedCarbonContext extends CarbonContext {
      * @return the CarbonContext instance.
      */
     public static PrivilegedCarbonContext getCurrentContext() {
-        CarbonUtils.checkSecurity();
+        ContextUtils.checkSecurity();
         return new PrivilegedCarbonContext(null);
     }
 
@@ -104,7 +95,7 @@ public class PrivilegedCarbonContext extends CarbonContext {
      * @return PrivilegedCarbonContext from the current thread
      */
     public static PrivilegedCarbonContext getThreadLocalCarbonContext(){
-        CarbonUtils.checkSecurity();
+        ContextUtils.checkSecurity();
         return new PrivilegedCarbonContext(CarbonContextDataHolder.getThreadLocalCarbonContextHolder());
     }
 
@@ -115,10 +106,10 @@ public class PrivilegedCarbonContext extends CarbonContext {
      * @param messageContext The Message Context on which the CarbonContext is found.
      * @return the CarbonContext instance.
      */
-    public static PrivilegedCarbonContext getCurrentContext(MessageContext messageContext) {
+    /*public static PrivilegedCarbonContext getCurrentContext(MessageContext messageContext) {
         CarbonUtils.checkSecurity();
         return new PrivilegedCarbonContext(CarbonContextDataHolder.getCurrentCarbonContextHolder(messageContext));
-    }
+    }*/
 
     /**
      * Obtains the CarbonContext instance stored on the CarbonContext holder in the given Axis2
@@ -128,10 +119,10 @@ public class PrivilegedCarbonContext extends CarbonContext {
      * @param configContext The Axis2 Configuration Context on which the CarbonContext is found.
      * @return the CarbonContext instance.
      */
-    public static PrivilegedCarbonContext getCurrentContext(ConfigurationContext configContext) {
+    /*public static PrivilegedCarbonContext getCurrentContext(ConfigurationContext configContext) {
         CarbonUtils.checkSecurity();
         return new PrivilegedCarbonContext(CarbonContextDataHolder.getCurrentCarbonContextHolder(configContext));
-    }
+    }*/
 
     /**
      * Obtains the CarbonContext instance stored on the CarbonContext holder in the given Axis2
@@ -141,10 +132,10 @@ public class PrivilegedCarbonContext extends CarbonContext {
      * @param axisConfiguration The Axis2 Configuration on which the CarbonContext is found.
      * @return the CarbonContext instance.
      */
-    public static PrivilegedCarbonContext getCurrentContext(AxisConfiguration axisConfiguration) {
+    /*public static PrivilegedCarbonContext getCurrentContext(AxisConfiguration axisConfiguration) {
         CarbonUtils.checkSecurity();
         return new PrivilegedCarbonContext(CarbonContextDataHolder.getCurrentCarbonContextHolder(axisConfiguration));
-    }
+    }*/
 
     /**
      * Obtains the CarbonContext instance stored on the CarbonContext holder attached to the given
@@ -153,12 +144,12 @@ public class PrivilegedCarbonContext extends CarbonContext {
      * @param axisService The Axis2 Service on which the CarbonContext is attached to.
      * @return the CarbonContext instance.
      */
-    public static PrivilegedCarbonContext getCurrentContext(AxisService axisService) {
+    /*public static PrivilegedCarbonContext getCurrentContext(AxisService axisService) {
         CarbonUtils.checkSecurity();
         AxisConfiguration axisConfiguration = axisService.getAxisConfiguration();
         return (axisConfiguration != null) ? getCurrentContext(axisConfiguration) :
                getCurrentContext();
-    }
+    }*/
 
     /**
      * Obtains the CarbonContext instance stored on the CarbonContext holder in the given HTTP
@@ -168,10 +159,10 @@ public class PrivilegedCarbonContext extends CarbonContext {
      * @param httpSession The HTTP Session on which the CarbonContext is found.
      * @return the CarbonContext instance.
      */
-    public static PrivilegedCarbonContext getCurrentContext(HttpSession httpSession) {
+    /*public static PrivilegedCarbonContext getCurrentContext(HttpSession httpSession) {
         CarbonUtils.checkSecurity();
         return new PrivilegedCarbonContext(CarbonContextDataHolder.getCurrentCarbonContextHolder(httpSession));
-    }
+    }*/
 
     /**
      * Obtains the CarbonContext instance stored on the CarbonContext holder in the given Thrift
@@ -180,13 +171,13 @@ public class PrivilegedCarbonContext extends CarbonContext {
      * @param thriftSession The HTTP Session on which the CarbonContext is found.
      * @return the CarbonContext instance.
      */
-    public static PrivilegedCarbonContext getCurrentContext(ThriftSession thriftSession) {
+    /*public static PrivilegedCarbonContext getCurrentContext(ThriftSession thriftSession) {
         CarbonUtils.checkSecurity();
         PrivilegedCarbonContext privilegedCarbonContext =
                 new PrivilegedCarbonContext(CarbonContextDataHolder.getCurrentCarbonContextHolder());
         thriftSession.setAttribute("carbonContextHolder",privilegedCarbonContext);
         return privilegedCarbonContext;
-    }
+    }*/
 
     /**
      * Method to set the tenant id on this CarbonContext instance. This method will not
@@ -422,13 +413,10 @@ public class PrivilegedCarbonContext extends CarbonContext {
      * cache may not be pre-initialized like the default cache. When in a cluster, it might take
      * sometime for the cache to join the other members. This would result in cache misses in the
      * meantime.
-     *
-     * @param name the name of the cache instance.
-     * @return the cache instance.
      */
-    public Cache getCache(String name) {
+   /* public Cache getCache(String name) {
         return CacheManager.getInstance().getCache(name);
-    }
+    }*/
 
     public void setUserRealm(UserRealm userRealm) {
         getCarbonContextDataHolder().setUserRealm(userRealm);
