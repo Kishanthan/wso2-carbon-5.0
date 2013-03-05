@@ -19,11 +19,11 @@ import org.apache.axiom.om.OMElement;
 import org.apache.axiom.om.impl.builder.StAXOMBuilder;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.wso2.carbon.api.ServerConfigurationService;
-import org.wso2.securevault.SecretResolver;
-import org.wso2.securevault.SecretResolverFactory;
 import org.w3c.dom.Element;
-import org.wso2.carbon.securevault.SecretManagerInitializer;
+import org.wso2.carbon.api.SecureVaultService;
+import org.wso2.carbon.api.ServerConfigurationService;
+import org.wso2.carbon.base.internal.CarbonBaseDataHolder;
+import org.wso2.carbon.exception.CarbonException;
 
 import javax.xml.namespace.QName;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -76,7 +76,7 @@ public class ServerConfiguration implements ServerConfigurationService {
     private boolean isInitialized;
     private boolean isLoadedConfigurationPreserved = false;
     private String documentXML;
-    private SecretResolver secretResolver;
+    private SecureVaultService secureVaultService;
 
     /**
      * Stores the singleton server configuration instance.
@@ -96,6 +96,7 @@ public class ServerConfiguration implements ServerConfigurationService {
     // Private constructor preventing creation of duplicate instances.
 
     private ServerConfiguration() {
+
     }
 
     /**
@@ -120,12 +121,8 @@ public class ServerConfiguration implements ServerConfigurationService {
 
         OMElement documentElement;
         try {
-            documentElement = new StAXOMBuilder(xmlInputStream)
-                    .getDocumentElement();
-            SecretManagerInitializer secretManagerInitializer = new SecretManagerInitializer();
-            secretManagerInitializer.init();
-            secretResolver = SecretResolverFactory
-                    .create(documentElement, true);
+            this.secureVaultService = CarbonBaseDataHolder.getInstance().getSecureVaultService();
+            documentElement = new StAXOMBuilder(xmlInputStream).getDocumentElement();
             Stack<String> nameStack = new Stack<String>();
             readChildElements(documentElement, nameStack);
             isInitialized = true;
@@ -133,6 +130,9 @@ public class ServerConfiguration implements ServerConfigurationService {
             documentXML = documentElement.toStringWithConsume();
         } catch (XMLStreamException e) {
             log.fatal("Problem in parsing the configuration file ", e);
+            throw new ServerConfigurationException(e);
+        } catch (CarbonException e) {
+            log.fatal("Can not access the secured passwords");
             throw new ServerConfigurationException(e);
         }
     }
@@ -250,7 +250,7 @@ public class ServerConfiguration implements ServerConfigurationService {
     }
 
     private void readChildElements(OMElement serverConfig,
-                                   Stack<String> nameStack) {
+                                   Stack<String> nameStack) throws CarbonException {
         for (Iterator childElements = serverConfig.getChildElements(); childElements
                 .hasNext();) {
             OMElement element = (OMElement) childElements.next();
@@ -258,8 +258,8 @@ public class ServerConfiguration implements ServerConfigurationService {
             if (elementHasText(element)) {
                 String key = getKey(nameStack);
                 String value = replaceSystemProperty(element.getText());
-                if (isProtectedToken(key)) {
-                    value = getProtectedValue(key);
+                if (this.secureVaultService.isTokenProtected(element)){
+                    value = this.secureVaultService.resolveSecret(element);
                 }
                 addToConfiguration(key, value);
             }
@@ -469,13 +469,5 @@ public class ServerConfiguration implements ServerConfigurationService {
         return factory.newDocumentBuilder().parse(inputStream)
                 .getDocumentElement();
     }
-
-    protected boolean isProtectedToken(String key) {
-        return secretResolver != null && secretResolver.isInitialized()
-                && secretResolver.isTokenProtected("Carbon." + key);
-    }
-
-    protected String getProtectedValue(String key) {
-        return secretResolver.resolve("Carbon." + key);
-    }
+    
 }
