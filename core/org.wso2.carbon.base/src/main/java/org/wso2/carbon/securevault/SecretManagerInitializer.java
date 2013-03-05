@@ -24,6 +24,7 @@ import org.wso2.securevault.SecurityConstants;
 import org.wso2.securevault.secret.SecretCallbackHandler;
 import org.wso2.securevault.secret.SecretCallbackHandlerFactory;
 import org.wso2.securevault.secret.SecretManager;
+import org.wso2.securevault.secret.handler.SecretManagerSecretCallbackHandler;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -36,58 +37,53 @@ import java.util.Properties;
  */
 public class SecretManagerInitializer {
 
-    private SecretManager secretManager = SecretManager.getInstance();
+    private SecretManager secretManager = null;
+    private Properties properties = null;
     private static final Log log = LogFactory.getLog(SecretManagerInitializer.class);
-    public static final String CARBON_HOME = "carbon.home";
-    private String SECRET_CONF = "secret-conf.properties";
-    private static String CONF_DIR = "conf";
-    private static String REPOSITORY_DIR = "repository";
-    private static final String SECURITY_DIR = "security";
-    private static String GLOBAL_PREFIX = "carbon.";
 
-    public SecretCallbackHandlerServiceImpl init() {
 
-        Properties properties = new Properties();
+    public SecretManagerInitializer() {
 
-        if (secretManager.isInitialized()) {
+        this.secretManager = SecretManager.getInstance();
+
+        this.properties = new Properties();
+
+        if (this.secretManager.isInitialized()) {
             if (log.isDebugEnabled()) {
                 log.debug("SecretManager already has been initialized.");
             }
         } else {
-            properties = loadProperties();
-            secretManager.init(properties);
+            this.properties = loadProperties();
+            this.secretManager.init(this.properties);
         }
 
-        SecretCallbackHandlerServiceImpl serviceImpl = null;
 
-        if (!secretManager.isInitialized()) {
+    }
 
-            SecretCallbackHandler passwordProvider =
-                    SecretCallbackHandlerFactory.createSecretCallbackHandler(properties,
-                            GLOBAL_PREFIX + SecurityConstants.PASSWORD_PROVIDER_SIMPLE);
+    public SecretCallbackHandler getSecuretCallBackHandler() {
 
-            if (passwordProvider != null) {
-                serviceImpl = new SecretCallbackHandlerServiceImpl();
-                serviceImpl.setSecretCallbackHandler(passwordProvider);
+        SecretCallbackHandler passwordProvider = null;
 
-            }
+        if (!this.secretManager.isInitialized()) {
+
+            passwordProvider =
+                    SecretCallbackHandlerFactory.createSecretCallbackHandler(this.properties,
+                            Constants.GLOBAL_PREFIX + SecurityConstants.PASSWORD_PROVIDER_SIMPLE);
         }
 
-        if (serviceImpl == null) {
-            serviceImpl = new SecretCallbackHandlerServiceImpl();
-            serviceImpl.setSecretCallbackHandler(
-                    new SecretManagerSecretCallbackHandler(secretManager));
+        if (passwordProvider == null) {
+            passwordProvider = new SecretManagerSecretCallbackHandler();
         }
 
-        return serviceImpl;
+        return passwordProvider;
     }
 
 
     private Properties loadProperties() {
         Properties properties = new Properties();
-        String carbonHome = System.getProperty(CARBON_HOME);
-        String filePath = carbonHome + File.separator + REPOSITORY_DIR + File.separator +
-                CONF_DIR + File.separator + SECURITY_DIR+ File.separator + SECRET_CONF;
+        String carbonHome = System.getProperty(Constants.CARBON_HOME);
+        String filePath = carbonHome + File.separator + Constants.REPOSITORY_DIR + File.separator +
+                Constants.CONF_DIR + File.separator + Constants.SECURITY_DIR + File.separator + Constants.SECRET_CONF;
 
         File dataSourceFile = new File(filePath);
         if (!dataSourceFile.exists()) {

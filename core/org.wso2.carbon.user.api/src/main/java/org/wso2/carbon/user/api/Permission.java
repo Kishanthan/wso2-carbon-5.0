@@ -15,29 +15,39 @@
 * specific language governing permissions and limitations
 * under the License.
 */
+package org.wso2.carbon.user.api;
 
-package org.wso2.carbon.securevault;
-
-/**
- * Base Class for capturing any type of exception that occurs in SecretCallbackHandler.
- */
-public class SecretCallbackHandlerException extends RuntimeException {
-    /**
-     * Constructs a new exception with the specified detail message.
-     *
-     * @param message the detail message.
-     */
-    public SecretCallbackHandlerException(String message) {
-        super(message);
-    }
+public class Permission {
 
     /**
-     * Constructs a new exception with the specified detail message and cause.
-     *
-     * @param message the detail message.
-     * @param cause   the cause of this exception.
+     * The resource Id string
      */
-    public SecretCallbackHandlerException(String message, Throwable cause) {
-        super(message, cause);
+    private String resourceId;
+    
+    /**
+     * The action string
+     */
+    private String action;
+
+    public Permission(String resourceId, String action) {
+        this.resourceId = resourceId;
+        this.action = action;
     }
+
+    public String getResourceId() {
+        return resourceId;
+    }
+
+    public String getAction() {
+        return action;
+    }
+
+    public void setResourceId(String resourceId) {
+        this.resourceId = resourceId;
+    }
+
+    public void setAction(String action) {
+        this.action = action;
+    }
+
 }

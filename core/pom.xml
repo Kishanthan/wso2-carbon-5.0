@@ -38,6 +38,7 @@
         <module>org.wso2.carbon.base</module>
         <module>org.wso2.carbon.api</module>
         <module>org.wso2.carbon.framework.exporter</module>
+        <module>org.wso2.carbon.user.api</module>
     </modules>
 </project>
 

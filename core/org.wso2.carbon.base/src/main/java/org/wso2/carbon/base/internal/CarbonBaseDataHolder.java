@@ -18,12 +18,12 @@ package org.wso2.carbon.base.internal;/*
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.wso2.carbon.api.SecretCallbackHandlerService;
+import org.wso2.carbon.api.SecureVaultService;
 
 public class CarbonBaseDataHolder {
     private Log log = LogFactory.getLog(CarbonBaseDataHolder.class);
     private static CarbonBaseDataHolder carbonBaseDataHolder = new CarbonBaseDataHolder();
-    private  SecretCallbackHandlerService secretCallbackHandlerService;
+    private SecureVaultService secureVaultService;
 
     private CarbonBaseDataHolder() {
         // you cant instantiate...
@@ -34,11 +34,11 @@ public class CarbonBaseDataHolder {
        return carbonBaseDataHolder;
     }
 
-    public void setSecretCallbackHandlerService(SecretCallbackHandlerService secretCallbackHandlerService) {
-       this.secretCallbackHandlerService = secretCallbackHandlerService;
+    public void setSecureVaultService(SecureVaultService secureVaultService) {
+       this.secureVaultService = secureVaultService;
     }
 
-    public SecretCallbackHandlerService getSecretCallbackHandlerService() {
-       return this.secretCallbackHandlerService;
+    public SecureVaultService getSecureVaultService() {
+       return this.secureVaultService;
     }
 }
