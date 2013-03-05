@@ -7,7 +7,7 @@
 
 package javax.cache;
 
-import javax.transaction.UserTransaction;
+//import javax.transaction.UserTransaction;
 
 /**
  * A CacheManager is used for looking up Caches and controls their lifecycle. It represents a collection of caches.
@@ -133,7 +133,7 @@ public interface CacheManager {
      * @return the UserTransaction.
      * @throws UnsupportedOperationException if JTA is not supported
      */
-    UserTransaction getUserTransaction();
+//    UserTransaction getUserTransaction();
 
 
     /**

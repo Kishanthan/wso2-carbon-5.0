@@ -7,8 +7,8 @@
 
 package javax.cache;
 
-import org.wso2.carbon.clustering.hazelcast.jsr107.AnnotationProviderImpl;
-import org.wso2.carbon.clustering.hazelcast.jsr107.CachingProviderImpl;
+//import org.wso2.carbon.clustering.hazelcast.jsr107.AnnotationProviderImpl;
+//import org.wso2.carbon.clustering.hazelcast.jsr107.CachingProviderImpl;
 
 import javax.cache.spi.AnnotationProvider;
 import javax.cache.spi.CachingProvider;
@@ -230,7 +230,7 @@ public final class Caching {
                     for (CachingProvider provider : serviceLoader) {
                         result.add(provider);
                     }*/
-                    result.add(new CachingProviderImpl());
+//                    result.add(new CachingProviderImpl());   //TODO: Properly load this
                     return result;
                 }
             });
@@ -244,7 +244,7 @@ public final class Caching {
                     for (AnnotationProvider provider : serviceLoader) {
                         result.add(provider);
                     }*/
-                    result.add(new AnnotationProviderImpl());
+//                    result.add(new AnnotationProviderImpl()); //TODO: Properly load this
                     return result;
                 }
             });
