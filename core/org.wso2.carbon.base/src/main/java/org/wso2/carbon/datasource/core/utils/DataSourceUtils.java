@@ -15,10 +15,8 @@
  */
 package org.wso2.carbon.datasource.core.utils;
 
-import org.apache.axiom.om.OMElement;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 /*
@@ -36,7 +34,6 @@ import org.wso2.carbon.utils.multitenancy.MultitenantConstants;*/
 import org.wso2.carbon.datasource.api.DataSourceException;
 import org.wso2.carbon.datasource.core.DataSourceMetaInfo;
 import org.wso2.securevault.SecretResolver;
-import org.wso2.securevault.SecretResolverFactory;
 
 import javax.xml.bind.Marshaller;
 import javax.xml.parsers.DocumentBuilder;

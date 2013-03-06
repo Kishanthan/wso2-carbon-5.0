@@ -13,7 +13,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package org.wso2.carbon.ndatasource.common;
+package org.wso2.carbon.datasource.api;
 
 /**
  * This class represents exceptions which are related to data sources.

@@ -39,7 +39,7 @@ public class ConnectionRollbackOnReturnInterceptor extends JdbcInterceptor {
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         PooledConnection pc = this.connection;
         try {
-            if (compare(CLOSE_VAL, method)) {
+            if (compare(JdbcInterceptor.CLOSE_VAL, method)) {
                 this.connection = null;
                 if (pc != null && pc.getXAConnection() == null && !pc.getConnection().getAutoCommit()) {
                     pc.getConnection().rollback();

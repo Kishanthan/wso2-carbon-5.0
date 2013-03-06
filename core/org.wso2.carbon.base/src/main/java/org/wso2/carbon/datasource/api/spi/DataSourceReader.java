@@ -13,9 +13,10 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package org.wso2.carbon.ndatasource.common.spi;
+package org.wso2.carbon.datasource.api.spi;
 
-import org.wso2.carbon.ndatasource.common.DataSourceException;
+
+import org.wso2.carbon.datasource.api.DataSourceException;
 
 /**
  * This represents the service provider interface that must be implemented by any of the 
