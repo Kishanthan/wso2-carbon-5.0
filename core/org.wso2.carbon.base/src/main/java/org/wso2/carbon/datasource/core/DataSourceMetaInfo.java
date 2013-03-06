@@ -15,15 +15,10 @@
  */
 package org.wso2.carbon.datasource.core;
 
-import javax.xml.bind.annotation.XmlAnyElement;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
-import javax.xml.bind.annotation.XmlType;
-
 import org.w3c.dom.Element;
 import org.wso2.carbon.datasource.core.utils.DataSourceUtils;
+
+import javax.xml.bind.annotation.*;
 
 /**
  * This class represents data source meta information.

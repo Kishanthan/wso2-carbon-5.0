@@ -17,7 +17,6 @@ package org.wso2.carbon.datasource.core;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.wso2.carbon.datasource.api.DataSourceConstants;
 import org.wso2.carbon.datasource.api.DataSourceException;
@@ -32,7 +31,6 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
-import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 

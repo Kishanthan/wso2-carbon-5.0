@@ -1,7 +1,7 @@
 <datasources-configuration xmlns:svns="http://org.wso2.securevault/configuration">
   
     <providers>
-        <provider>org.wso2.carbon.ndatasource.rdbms.RDBMSDataSourceReader</provider>
+        <provider>org.wso2.carbon.datasource.core.rdbms.RDBMSDataSourceReader</provider>
     </providers>
   
     <datasources>

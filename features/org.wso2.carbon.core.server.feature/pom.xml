@@ -58,13 +58,14 @@
                             </adviceFile>
                             <bundles>
                                 <bundleDef>org.wso2.carbon:org.wso2.carbon.logging:5.0.0-SNAPSHOT</bundleDef>
-                                <bundleDef>org.wso2.carbon:org.wso2.carbon.api:5.0.0-SNAPSHOT</bundleDef>
                                 <bundleDef>org.wso2.carbon:org.wso2.carbon.base:5.0.0-SNAPSHOT</bundleDef>
                                 <bundleDef>org.wso2.carbon:org.wso2.carbon.framework.exporter:5.0.0-SNAPSHOT</bundleDef>
 
                                 <!--orbit bundles-->
                                 <bundleDef>org.wso2.securevault:org.wso2.securevault:1.1.0-SNAPSHOT</bundleDef>
                                 <bundleDef>org.apache.ws.commons.axiom.wso2:axiom:1.2.11.wso2v3</bundleDef>
+                                <bundleDef>org.apache.tomcat.wso2:jdbc-pool:7.0.28.wso2v1</bundleDef>
+                                <bundleDef>commons-io.wso2:commons-io:2.0.0.wso2v2</bundleDef>
                             </bundles>
                         </configuration>
                     </execution>

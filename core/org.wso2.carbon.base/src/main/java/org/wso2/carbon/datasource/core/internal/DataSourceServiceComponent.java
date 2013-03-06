@@ -18,27 +18,24 @@ package org.wso2.carbon.datasource.core.internal;/*
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.osgi.framework.BundleActivator;
-import org.osgi.framework.BundleContext;
+import org.osgi.service.component.ComponentContext;
 import org.wso2.carbon.datasource.core.DataSourceManager;
 
 /**
  * @scr.component name="carbon.data.source.service.component" immediate="true"
  */
 public class DataSourceServiceComponent {
-    private static final Log log = LogFactory.getLog(DataSourceActivator.class);
+    private static final Log log = LogFactory.getLog(DataSourceServiceComponent.class);
 
-    public void start(BundleContext bundleContext) throws Exception {
+    public void activate(ComponentContext componentContext) {
         try{
             DataSourceManager.getInstance().initSystemDataSources();
         }catch (Throwable t){
             t.printStackTrace();
         }
-        /*bundleContext.registerService(DataSourceService.class.getName(),
-                new DataSourceService(), null);*/
     }
 
-    public void stop(BundleContext bundleContext) throws Exception {
-        //To change body of implemented methods use File | Settings | File Templates.
+    public void deactivate(ComponentContext componentContext) {
+
     }
 }
