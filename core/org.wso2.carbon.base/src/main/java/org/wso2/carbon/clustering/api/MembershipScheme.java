@@ -15,34 +15,26 @@
 * specific language governing permissions and limitations
 * under the License.
 */
-package org.wso2.carbon.base;
+package org.wso2.carbon.clustering.api;
 
 /**
- * TODO: class description
+ * A representation of a membership scheme such as "multicast based" or "well-known address (WKA)
+ * based" schemes. This is directly related to the membership discovery mechanism.
  */
-public class Parameter {
+public interface MembershipScheme {
 
-    private String name;
-    private Object value;
+    /**
+     * Initialize this membership scheme
+     *
+     * @throws ClusteringException If an error occurs while initializing
+     */
+    void init() throws ClusteringException;
 
-    public Parameter(String name) {
-        this.name = name;
-    }
+    /**
+     * JOIN the group
+     *
+     * @throws ClusteringException If an error occurs while joining the group
+     */
+    void joinGroup() throws ClusteringException;
 
-    public Parameter(String name, String Object) {
-        this.name = name;
-        this.value = value;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public Object getValue() {
-        return value;
-    }
-
-    public void setValue(Object value) {
-        this.value = value;
-    }
 }

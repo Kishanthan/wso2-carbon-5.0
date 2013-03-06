@@ -82,4 +82,7 @@ public interface GroupManagementAgent {
      * @throws ClusteringException If an error occurs while sending the command
      */
     void send(GroupManagementCommand command) throws ClusteringException;
+
+
+    void setGroupMgtPort(int groupMgtPort);
 }

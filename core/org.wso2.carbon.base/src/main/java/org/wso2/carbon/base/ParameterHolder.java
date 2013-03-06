@@ -18,7 +18,9 @@
 package org.wso2.carbon.base;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -35,8 +37,12 @@ public class ParameterHolder {
         return parameters.get(name);
     }
 
-    public ArrayList getParameters() {
-        ArrayList<Parameter> list = new ArrayList<Parameter>();
+    public Map<String, Parameter> getParameterMap(){
+       return Collections.unmodifiableMap(parameters);
+    }
+
+    public List<Parameter> getParameters() {
+        List<Parameter> list = new ArrayList<Parameter>();
         for (String msg : parameters.keySet()) {
             list.add(parameters.get(msg));
         }
