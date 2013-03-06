@@ -22,7 +22,10 @@ import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.wso2.carbon.datasource.core.DataSourceManager;
 
-public class DataSourceActivator implements BundleActivator {
+/**
+ * @scr.component name="carbon.data.source.service.component" immediate="true"
+ */
+public class DataSourceServiceComponent {
     private static final Log log = LogFactory.getLog(DataSourceActivator.class);
 
     public void start(BundleContext bundleContext) throws Exception {
