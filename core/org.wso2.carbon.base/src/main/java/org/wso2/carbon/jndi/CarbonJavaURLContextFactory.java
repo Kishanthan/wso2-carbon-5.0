@@ -20,7 +20,7 @@ import org.apache.naming.ContextBindings;
 import org.apache.naming.SelectorContext;
 import org.apache.naming.java.javaURLContextFactory;
 import org.apache.naming.NamingContext;
-import org.wso2.carbon.tomcat.constants.Constants;
+import org.wso2.carbon.constants.CarbonConstants;
 
 import javax.naming.Name;
 import javax.naming.Context;
@@ -38,8 +38,8 @@ public class CarbonJavaURLContextFactory extends javaURLContextFactory {
 
     public Context getInitialContext(Hashtable hashtable) throws NamingException {
         // We check wether the intiCtx request is coming from webapps
-        if (hashtable.get(Constants.JNDI_WEBAPP_BOUND) != null) {
-            String isWebappBound = hashtable.get(Constants.JNDI_WEBAPP_BOUND).toString();
+        if (hashtable.get(CarbonConstants.JNDI_WEBAPP_BOUND) != null) {
+            String isWebappBound = hashtable.get(CarbonConstants.JNDI_WEBAPP_BOUND).toString();
             if ("true".equals(isWebappBound) &&
                     (ContextBindings.isThreadBound() || ContextBindings.isClassLoaderBound())) {
                 return new SelectorContext(hashtable, false);

@@ -119,5 +119,10 @@
             <groupId>org.apache.tomcat.wso2</groupId>
             <artifactId>jdbc-pool</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.apache.tomcat.wso2</groupId>
+            <artifactId>apache.naming</artifactId>
+            <version>7.0.34.wso2v1</version>
+        </dependency>
     </dependencies>
 </project>

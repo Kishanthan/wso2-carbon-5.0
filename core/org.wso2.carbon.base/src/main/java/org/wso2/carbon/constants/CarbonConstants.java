@@ -391,4 +391,6 @@ public final class CarbonConstants {
 
     public static final String HTTP_ADMIN_SERVICES = "HttpAdminServices";
 
+    public static final String JNDI_WEBAPP_BOUND = "java.naming.webapp.bound";
+
 }

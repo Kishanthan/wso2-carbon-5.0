@@ -19,20 +19,34 @@ package org.wso2.carbon.datasource.core.internal;/*
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.osgi.service.component.ComponentContext;
+import org.wso2.carbon.api.DiscoveryService;
+import org.wso2.carbon.api.ServerConfigurationService;
+import org.wso2.carbon.base.ServerConfiguration;
+import org.wso2.carbon.context.CarbonContext;
+import org.wso2.carbon.context.internal.CarbonContextDataHolder;
 import org.wso2.carbon.datasource.core.DataSourceManager;
 
 /**
  * @scr.component name="carbon.data.source.service.component" immediate="true"
+ * @scr.reference name="server.configuration.service" interface="org.wso2.carbon.api.ServerConfigurationService"
+ * cardinality="1..1" policy="dynamic" bind="setServerConfigurationService"  unbind="unsetServerConfigurationService"
  */
 public class DataSourceServiceComponent {
     private static final Log log = LogFactory.getLog(DataSourceServiceComponent.class);
 
     protected void activate(ComponentContext componentContext) {
         try{
+            CarbonContext.getCurrentContext();
             DataSourceManager.getInstance().initSystemDataSources();
         }catch (Throwable t){
             t.printStackTrace();
         }
+    }
+
+    protected void setServerConfigurationService(ServerConfigurationService serverConfigurationService) {
+    }
+
+    protected void unsetServerConfigurationService(ServerConfigurationService serverConfigurationService) {
     }
 
     protected void deactivate(ComponentContext componentContext) {
