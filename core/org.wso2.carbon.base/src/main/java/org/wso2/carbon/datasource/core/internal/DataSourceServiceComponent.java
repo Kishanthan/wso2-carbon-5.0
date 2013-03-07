@@ -27,7 +27,7 @@ import org.wso2.carbon.datasource.core.DataSourceManager;
 public class DataSourceServiceComponent {
     private static final Log log = LogFactory.getLog(DataSourceServiceComponent.class);
 
-    public void activate(ComponentContext componentContext) {
+    protected void activate(ComponentContext componentContext) {
         try{
             DataSourceManager.getInstance().initSystemDataSources();
         }catch (Throwable t){
@@ -35,7 +35,7 @@ public class DataSourceServiceComponent {
         }
     }
 
-    public void deactivate(ComponentContext componentContext) {
+    protected void deactivate(ComponentContext componentContext) {
 
     }
 }

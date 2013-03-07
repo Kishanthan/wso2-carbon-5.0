@@ -41,7 +41,7 @@ public class CarbonBaseServiceComponent {
     private CarbonBaseDataHolder dataHolder = CarbonBaseDataHolder.getInstance();
     private ServiceRegistration registration;
 
-    public void activate(ComponentContext componentContext) throws Exception {
+    protected void activate(ComponentContext componentContext) throws Exception {
 
         ServerConfiguration carbonServerConfiguration = ServerConfiguration.getInstance();
         initServerConfiguration(carbonServerConfiguration);
@@ -63,7 +63,7 @@ public class CarbonBaseServiceComponent {
          dataHolder.setSecureVaultService(null);
     }
 
-    public void deactivate(ComponentContext componentContext) throws Exception {
+    protected void deactivate(ComponentContext componentContext) throws Exception {
         registration.unregister();
     }
 

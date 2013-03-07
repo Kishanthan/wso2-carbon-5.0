@@ -15,12 +15,12 @@ import org.wso2.carbon.deployment.CarbonDeploymentException;
 public class CarbonDeploymentServiceComponent {
     private static Log log = LogFactory.getLog(CarbonDeploymentServiceComponent.class);
 
-    public void activate(ComponentContext componentContext) {
+    protected void activate(ComponentContext componentContext) {
         ServerConfiguration carbonServerConfiguration = ServerConfiguration.getInstance();
         initCarbonDeploymentEngine(carbonServerConfiguration);
     }
 
-    public void deactivate(ComponentContext componentContext) {
+    protected void deactivate(ComponentContext componentContext) {
 
     }
 
