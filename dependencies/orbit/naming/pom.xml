@@ -24,8 +24,8 @@
     <artifactId>apache.naming</artifactId>
     <version>${version.tomcat}.wso2v1</version>
     <packaging>bundle</packaging>
-    <name>tomcat orbit bundle</name>
-    <description>Apache Tomcat</description>
+    <name>apache naming orbit bundle</name>
+    <description>JNDI support</description>
 
     <dependencies>
             <dependency>

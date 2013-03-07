@@ -43,6 +43,7 @@
                 <activeByDefault>true</activeByDefault>
             </activation>
             <modules>
+                <module>dependencies/orbit/naming</module>
                 <module>parent</module>
                 <module>bootstrap</module>
                 <module>core</module>
