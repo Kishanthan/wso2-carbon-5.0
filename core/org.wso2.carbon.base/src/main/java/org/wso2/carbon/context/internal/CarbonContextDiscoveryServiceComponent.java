@@ -18,11 +18,11 @@
 package org.wso2.carbon.context.internal;
 
 import org.osgi.service.component.ComponentContext;
-import org.wso2.carbon.base.DiscoveryService;
+import org.wso2.carbon.api.DiscoveryService;
 
 /**
  * @scr.component name="org.wso2.carbon.context.internal.CarbonContextDiscoveryServiceComponent" immediate="true"
- * @scr.reference name="discoveryService" interface="org.wso2.carbon.base.DiscoveryService"
+ * @scr.reference name="discoveryService" interface="org.wso2.carbon.api.DiscoveryService"
  * cardinality="0..1" policy="dynamic"  bind="setDiscoveryService" unbind="unsetDiscoveryService"
  */
 public class CarbonContextDiscoveryServiceComponent {

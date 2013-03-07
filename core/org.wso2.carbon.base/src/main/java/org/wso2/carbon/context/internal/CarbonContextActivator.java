@@ -1,5 +1,5 @@
-package org.wso2.carbon.context.internal;/*
-*  Copyright (c) 2005-2012, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+/*
+*  Copyright (c) 2005-2011, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
 *
 *  WSO2 Inc. licenses this file to you under the Apache License,
 *  Version 2.0 (the "License"); you may not use this file except
@@ -15,6 +15,21 @@ package org.wso2.carbon.context.internal;/*
 * specific language governing permissions and limitations
 * under the License.
 */
+package org.wso2.carbon.context.internal;
 
-public class CarbonContextActivator {
+import org.osgi.framework.BundleActivator;
+import org.osgi.framework.BundleContext;
+
+/**
+ * CarbonContextActivator
+ */
+public class CarbonContextActivator implements BundleActivator {
+
+    public void start(BundleContext context) throws Exception {
+        OSGiDataHolder.getInstance().setBundleContext(context);
+    }
+
+    public void stop(BundleContext bundleContext) throws Exception {
+        OSGiDataHolder.getInstance().setBundleContext(null);
+    }
 }
