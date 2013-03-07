@@ -1,4 +1,4 @@
-package org.wso2.carbon.context.internal;/*
+package org.wso2.carbon.constants;/*
 *  Copyright (c) 2005-2012, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
 *
 *  WSO2 Inc. licenses this file to you under the Apache License,
@@ -16,18 +16,5 @@ package org.wso2.carbon.context.internal;/*
 * under the License.
 */
 
-import java.lang.management.ManagementPermission;
-
-public class ContextUtils {
-
-    /**
-     * Method to test whether a given user has permission to execute the given
-     * method.
-     */
-    public static void checkSecurity() {
-        SecurityManager secMan = System.getSecurityManager();
-        if (secMan != null) {
-            secMan.checkPermission(new ManagementPermission("control"));
-        }
-    }
+public class CarbonConstants {
 }
