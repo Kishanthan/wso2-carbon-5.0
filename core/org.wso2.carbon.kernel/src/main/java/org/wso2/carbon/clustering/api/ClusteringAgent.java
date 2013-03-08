@@ -177,4 +177,9 @@ public interface ClusteringAgent {
         * @throws ClusteringException If an error occurs while sending the message
         */
     List<ClusteringCommand> sendMessage(ClusteringMessage msg, boolean isRpcMessage) throws ClusteringException;
+
+    void addGroupManagementAgent(GroupManagementAgent groupManagementAgent,
+                                 String applicationDomain,
+                                 String applicationSubDomain,
+                                 int groupMgtPort);
 }

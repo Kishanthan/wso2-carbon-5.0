@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<components xmlns:scr="http://www.osgi.org/xmlns/scr/v1.0.0">
+    <scr:component enabled="true" immediate="true" name="carbon.base.service.component">
+        <implementation class="org.wso2.carbon.base.internal.CarbonBaseServiceComponent"/>
+        <property name="service.pid" value="carbon.base.service.component" private="false"/>
+        <reference name="secure.vault.service" interface="org.wso2.carbon.api.SecureVaultService" cardinality="1..1" policy="dynamic" bind="setSecureVaultService" unbind="unsetSecureVaultService" checked="true" strategy="event"/>
+    </scr:component>
+    <scr:component enabled="true" immediate="true" name="org.wso2.carbon.context.internal.CarbonContextDiscoveryServiceComponent">
+        <implementation class="org.wso2.carbon.context.internal.CarbonContextDiscoveryServiceComponent"/>
+        <property name="service.pid" value="org.wso2.carbon.context.internal.CarbonContextDiscoveryServiceComponent" private="false"/>
+        <reference name="discoveryService" interface="org.wso2.carbon.api.DiscoveryService" cardinality="0..1" policy="dynamic" bind="setDiscoveryService" unbind="unsetDiscoveryService" checked="true" strategy="event"/>
+    </scr:component>
+    <scr:component enabled="true" immediate="true" name="carbon.data.source.service.component">
+        <implementation class="org.wso2.carbon.datasource.core.internal.DataSourceServiceComponent"/>
+        <property name="service.pid" value="carbon.data.source.service.component" private="false"/>
+        <reference name="server.configuration.service" interface="org.wso2.carbon.api.ServerConfigurationService" cardinality="1..1" policy="dynamic" bind="setServerConfigurationService" unbind="unsetServerConfigurationService" checked="true" strategy="event"/>
+    </scr:component>
+    <scr:component enabled="true" immediate="true" name="carbon.deployment.service.component">
+        <implementation class="org.wso2.carbon.deployment.internal.CarbonDeploymentServiceComponent"/>
+        <property name="service.pid" value="carbon.deployment.service.component" private="false"/>
+    </scr:component>
+    <scr:component enabled="true" immediate="true" name="secure.vault.component">
+        <implementation class="org.wso2.carbon.securevault.internal.SecureValultComponent"/>
+        <property name="service.pid" value="secure.vault.component" private="false"/>
+    </scr:component>
+</components>

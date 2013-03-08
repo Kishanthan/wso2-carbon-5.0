@@ -20,6 +20,10 @@ package org.wso2.carbon.base;
 
 import java.io.File;
 import java.lang.management.ManagementPermission;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
 
@@ -138,5 +142,43 @@ public class CarbonBaseUtils {
         }
 
         return carbonRepoLocation;
+    }
+
+    /**
+     * Returns the ip address to be used for the replyto epr
+     * CAUTION:
+     * This will go through all the available network interfaces and will try to return an ip address.
+     * First this will try to get the first IP which is not loopback address (127.0.0.1). If none is found
+     * then this will return this will return 127.0.0.1.
+     * This will <b>not<b> consider IPv6 addresses.
+     * <p/>
+     * TODO:
+     * - Improve this logic to genaralize it a bit more
+     * - Obtain the ip to be used here from the Call API
+     *
+     * @return Returns String.
+     * @throws java.net.SocketException
+     */
+    public static String getIpAddress() throws SocketException {
+        Enumeration e = NetworkInterface.getNetworkInterfaces();
+        String address = "127.0.0.1";
+
+        while (e.hasMoreElements()) {
+            NetworkInterface netface = (NetworkInterface) e.nextElement();
+            Enumeration addresses = netface.getInetAddresses();
+
+            while (addresses.hasMoreElements()) {
+                InetAddress ip = (InetAddress) addresses.nextElement();
+                if (!ip.isLoopbackAddress() && isIP(ip.getHostAddress())) {
+                    return ip.getHostAddress();
+                }
+            }
+        }
+
+        return address;
+    }
+
+    private static boolean isIP(String hostAddress) {
+        return hostAddress.split("[.]").length == 4;
     }
 }

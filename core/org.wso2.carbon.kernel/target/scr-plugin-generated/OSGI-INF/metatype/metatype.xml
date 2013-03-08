@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metatype:MetaData xmlns:metatype="http://www.osgi.org/xmlns/metatype/v1.0.0" localization="OSGI-INF/metatype/metatype">
+    <OCD id="carbon.base.service.component" name="%carbon.base.service.component.name" description="%carbon.base.service.component.description"/>
+    <OCD id="org.wso2.carbon.context.internal.CarbonContextDiscoveryServiceComponent" name="%org.wso2.carbon.context.internal.CarbonContextDiscoveryServiceComponent.name" description="%org.wso2.carbon.context.internal.CarbonContextDiscoveryServiceComponent.description"/>
+    <OCD id="carbon.data.source.service.component" name="%carbon.data.source.service.component.name" description="%carbon.data.source.service.component.description"/>
+    <OCD id="carbon.deployment.service.component" name="%carbon.deployment.service.component.name" description="%carbon.deployment.service.component.description"/>
+    <OCD id="secure.vault.component" name="%secure.vault.component.name" description="%secure.vault.component.description"/>
+    <Designate pid="carbon.base.service.component">
+        <Object ocdref="carbon.base.service.component"/>
+    </Designate>
+    <Designate pid="org.wso2.carbon.context.internal.CarbonContextDiscoveryServiceComponent">
+        <Object ocdref="org.wso2.carbon.context.internal.CarbonContextDiscoveryServiceComponent"/>
+    </Designate>
+    <Designate pid="carbon.data.source.service.component">
+        <Object ocdref="carbon.data.source.service.component"/>
+    </Designate>
+    <Designate pid="carbon.deployment.service.component">
+        <Object ocdref="carbon.deployment.service.component"/>
+    </Designate>
+    <Designate pid="secure.vault.component">
+        <Object ocdref="secure.vault.component"/>
+    </Designate>
+</metatype:MetaData>
