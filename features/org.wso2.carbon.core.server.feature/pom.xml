@@ -59,8 +59,6 @@
                             <bundles>
                                 <bundleDef>org.wso2.carbon:org.wso2.carbon.logging:5.0.0-SNAPSHOT</bundleDef>
                                 <bundleDef>org.wso2.carbon:org.wso2.carbon.kernel:5.0.0-SNAPSHOT</bundleDef>
-                                <bundleDef>org.wso2.carbon:org.wso2.carbon.user.api:5.0.0-SNAPSHOT</bundleDef>
-                                <bundleDef>org.wso2.carbon:org.wso2.carbon.registry.api:5.0.0-SNAPSHOT</bundleDef>
                                 <bundleDef>org.wso2.carbon:org.wso2.carbon.framework.exporter:5.0.0-SNAPSHOT</bundleDef>
 
                                 <!--orbit bundles-->
