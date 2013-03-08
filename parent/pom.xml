@@ -365,6 +365,11 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
+                <groupId>com.hazelcast</groupId>
+                <artifactId>hazelcast-all</artifactId>
+                <version>2.5</version>
+            </dependency>
+            <dependency>
                 <groupId>org.eclipse.osgi</groupId>
                 <artifactId>org.eclipse.osgi</artifactId>
                 <version>${version.equinox.osgi}</version>
