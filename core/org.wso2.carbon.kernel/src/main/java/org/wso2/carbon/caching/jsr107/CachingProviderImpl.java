@@ -15,43 +15,29 @@
 * specific language governing permissions and limitations
 * under the License.
 */
-package org.wso2.carbon.clustering.hazelcast.jsr107;
+package org.wso2.carbon.caching.jsr107;
 
-import javax.cache.Cache;
-import javax.cache.event.CacheEntryEvent;
+import javax.cache.CacheManagerFactory;
+import javax.cache.OptionalFeature;
+import javax.cache.spi.CachingProvider;
 
 /**
  * TODO: class description
  */
-public class CacheEntryEventImpl extends CacheEntryEvent {
+public class CachingProviderImpl implements CachingProvider {
+    private CacheManagerFactoryImpl cacheManagerFactory;
 
-    private Object key;
-    private Object value;
-
-    /**
-     * Constructs a cache entry event from a given cache as source
-     *
-     * @param source the cache that originated the event
-     */
-    public CacheEntryEventImpl(Cache source) {
-        super(source);
-    }
-
-    public void setKey(Object key) {
-        this.key = key;
-    }
-
-    public void setValue(Object value) {
-        this.value = value;
+    public CachingProviderImpl() {
+        cacheManagerFactory = new CacheManagerFactoryImpl();
     }
 
     @Override
-    public Object getKey() {
-        return key;
+    public CacheManagerFactory getCacheManagerFactory() {
+        return cacheManagerFactory;
     }
 
     @Override
-    public Object getValue() {
-        return value;
+    public boolean isSupported(OptionalFeature optionalFeature) {
+        return true;  //TODO: impl
     }
 }

@@ -15,10 +15,10 @@
 * specific language governing permissions and limitations
 * under the License.
 */
-package org.wso2.carbon.clustering.hazelcast.jsr107;
+package org.wso2.carbon.caching.jsr107;
 
-import org.wso2.carbon.clustering.hazelcast.jsr107.eviction.EvictionAlgorithm;
-import org.wso2.carbon.clustering.hazelcast.jsr107.eviction.LeastRecentlyUsedEvictionAlgorithm;
+import org.wso2.carbon.caching.jsr107.eviction.EvictionAlgorithm;
+import org.wso2.carbon.caching.jsr107.eviction.LeastRecentlyUsedEvictionAlgorithm;
 
 /**
  * TODO: class description

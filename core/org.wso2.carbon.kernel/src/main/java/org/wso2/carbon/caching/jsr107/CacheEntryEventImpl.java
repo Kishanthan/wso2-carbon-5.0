@@ -15,16 +15,43 @@
 * specific language governing permissions and limitations
 * under the License.
 */
-package org.wso2.carbon.clustering.hazelcast.jsr107;
+package org.wso2.carbon.caching.jsr107;
 
-import javax.cache.spi.AnnotationProvider;
+import javax.cache.Cache;
+import javax.cache.event.CacheEntryEvent;
 
 /**
  * TODO: class description
  */
-public class AnnotationProviderImpl implements AnnotationProvider {
+public class CacheEntryEventImpl extends CacheEntryEvent {
+
+    private Object key;
+    private Object value;
+
+    /**
+     * Constructs a cache entry event from a given cache as source
+     *
+     * @param source the cache that originated the event
+     */
+    public CacheEntryEventImpl(Cache source) {
+        super(source);
+    }
+
+    public void setKey(Object key) {
+        this.key = key;
+    }
+
+    public void setValue(Object value) {
+        this.value = value;
+    }
+
     @Override
-    public boolean isSupported() {
-        return false;  //TODO: return true when we start supporting annotations
+    public Object getKey() {
+        return key;
+    }
+
+    @Override
+    public Object getValue() {
+        return value;
     }
 }

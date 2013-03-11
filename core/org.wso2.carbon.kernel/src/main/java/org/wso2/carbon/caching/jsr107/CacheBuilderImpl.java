@@ -15,7 +15,7 @@
 * specific language governing permissions and limitations
 * under the License.
 */
-package org.wso2.carbon.clustering.hazelcast.jsr107;
+package org.wso2.carbon.caching.jsr107;
 
 import javax.cache.Cache;
 import javax.cache.CacheBuilder;

@@ -15,24 +15,15 @@
 * specific language governing permissions and limitations
 * under the License.
 */
-package org.wso2.carbon.clustering.hazelcast.jsr107.eviction;
+package org.wso2.carbon.caching.jsr107.eviction;
 
-import org.wso2.carbon.clustering.hazelcast.jsr107.CacheImpl;
-import org.wso2.carbon.clustering.hazelcast.jsr107.HazelcastCacheManager;
+import org.wso2.carbon.caching.jsr107.CacheImpl;
 
 /**
  * TODO: class description
  */
-public class EvictionUtil {
+public interface EvictionAlgorithm {
 
-    public static void evict(CacheImpl cache, EvictionAlgorithm algorithm) {
+    void evict(CacheImpl cache);
 
-        HazelcastCacheManager cacheManager = (HazelcastCacheManager) cache.getCacheManager();
-        int ownerTenantId = cacheManager.getOwnerTenantId();
-        String cacheManagerName = cacheManager.getName();
-        String cacheName = cache.getName();
-        synchronized ((ownerTenantId + "." + cacheManagerName + "." + cacheName).intern()) {
-            algorithm.evict(cache);
-        }
-    }
 }

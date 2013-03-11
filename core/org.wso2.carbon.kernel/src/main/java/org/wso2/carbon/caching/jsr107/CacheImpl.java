@@ -15,15 +15,15 @@
 * specific language governing permissions and limitations
 * under the License.
 */
-package org.wso2.carbon.clustering.hazelcast.jsr107;
+package org.wso2.carbon.caching.jsr107;
 
 import com.hazelcast.core.HazelcastInstance;
 import com.hazelcast.core.IMap;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.wso2.carbon.clustering.hazelcast.HazelcastInstanceManager;
-import org.wso2.carbon.clustering.hazelcast.jsr107.eviction.EvictionAlgorithm;
-import org.wso2.carbon.clustering.hazelcast.jsr107.eviction.EvictionUtil;
+import org.wso2.carbon.caching.jsr107.eviction.EvictionAlgorithm;
+import org.wso2.carbon.caching.jsr107.eviction.EvictionUtil;
 import org.wso2.carbon.context.CarbonContext;
 import org.wso2.carbon.context.PrivilegedCarbonContext;
 import org.wso2.carbon.constants.MultitenantConstants;

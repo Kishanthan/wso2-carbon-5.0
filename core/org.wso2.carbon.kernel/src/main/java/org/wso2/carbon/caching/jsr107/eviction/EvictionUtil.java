@@ -15,29 +15,24 @@
 * specific language governing permissions and limitations
 * under the License.
 */
-package org.wso2.carbon.clustering.hazelcast.jsr107;
+package org.wso2.carbon.caching.jsr107.eviction;
 
-import javax.cache.CacheManagerFactory;
-import javax.cache.OptionalFeature;
-import javax.cache.spi.CachingProvider;
+import org.wso2.carbon.caching.jsr107.CacheImpl;
+import org.wso2.carbon.caching.jsr107.HazelcastCacheManager;
 
 /**
  * TODO: class description
  */
-public class CachingProviderImpl implements CachingProvider {
-    private CacheManagerFactoryImpl cacheManagerFactory;
+public class EvictionUtil {
 
-    public CachingProviderImpl() {
-        cacheManagerFactory = new CacheManagerFactoryImpl();
-    }
+    public static void evict(CacheImpl cache, EvictionAlgorithm algorithm) {
 
-    @Override
-    public CacheManagerFactory getCacheManagerFactory() {
-        return cacheManagerFactory;
-    }
-
-    @Override
-    public boolean isSupported(OptionalFeature optionalFeature) {
-        return true;  //TODO: impl
+        HazelcastCacheManager cacheManager = (HazelcastCacheManager) cache.getCacheManager();
+        int ownerTenantId = cacheManager.getOwnerTenantId();
+        String cacheManagerName = cacheManager.getName();
+        String cacheName = cache.getName();
+        synchronized ((ownerTenantId + "." + cacheManagerName + "." + cacheName).intern()) {
+            algorithm.evict(cache);
+        }
     }
 }

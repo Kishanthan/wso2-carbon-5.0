@@ -15,29 +15,37 @@
 * specific language governing permissions and limitations
 * under the License.
 */
-package org.wso2.carbon.clustering.hazelcast.jsr107.eviction;
+package org.wso2.carbon.caching.jsr107.eviction;
 
-import org.wso2.carbon.clustering.hazelcast.jsr107.CacheEntry;
-import org.wso2.carbon.clustering.hazelcast.jsr107.CacheImpl;
+import org.wso2.carbon.caching.jsr107.CacheEntry;
+import org.wso2.carbon.caching.jsr107.CacheImpl;
+
+import java.util.Collection;
+import java.util.Random;
 
 /**
  * TODO: class description
  */
-public class MostRecentlyUsedEvictionAlgorithm implements EvictionAlgorithm {
+public class RandomEvictionAlgorithm implements EvictionAlgorithm {
+    private static Random random = new Random();
 
     @SuppressWarnings("unchecked")
     public void evict(CacheImpl cache) {
-        CacheEntry mruCacheEntry = null;
-        for (Object o : cache.getAll()) {
-            CacheEntry cacheEntry = (CacheEntry) o;
-            if (mruCacheEntry == null) {
-                mruCacheEntry = cacheEntry;
-            } else if (mruCacheEntry.getLastAccessed() < cacheEntry.getLastAccessed()) {
-                mruCacheEntry = cacheEntry;
+        CacheEntry lruCacheEntry = null;
+        Collection all = cache.getAll();
+        int evictionIndex = random.nextInt(all.size());
+        int index = 0;
+
+        for (Object anAll : all) {
+            CacheEntry cacheEntry = (CacheEntry) anAll;
+            if (index == evictionIndex) {
+                lruCacheEntry = cacheEntry;
+                break;
             }
+            index++;
         }
-        if (mruCacheEntry != null) {
-            cache.evict(mruCacheEntry.getKey());
+        if (lruCacheEntry != null) {
+            cache.evict(lruCacheEntry.getKey());
         }
     }
 }
