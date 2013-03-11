@@ -7,11 +7,11 @@
 
 package javax.cache;
 
-//import org.wso2.carbon.clustering.hazelcast.jsr107.AnnotationProviderImpl;
-//import org.wso2.carbon.clustering.hazelcast.jsr107.CachingProviderImpl;
+//import org.wso2.carbon.caching.jsr107.AnnotationProviderImpl;
+//import org.wso2.carbon.caching.jsr107.CachingProviderImpl;
 
-import org.wso2.carbon.clustering.hazelcast.jsr107.AnnotationProviderImpl;
-import org.wso2.carbon.clustering.hazelcast.jsr107.CachingProviderImpl;
+import org.wso2.carbon.caching.jsr107.AnnotationProviderImpl;
+import org.wso2.carbon.caching.jsr107.CachingProviderImpl;
 
 import javax.cache.spi.AnnotationProvider;
 import javax.cache.spi.CachingProvider;

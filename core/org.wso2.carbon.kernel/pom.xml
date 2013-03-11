@@ -128,5 +128,10 @@
             <artifactId>apache.naming</artifactId>
             <version>7.0.34.wso2v1</version>
         </dependency>
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 </project>
