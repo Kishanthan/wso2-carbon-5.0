@@ -15,12 +15,12 @@
 * specific language governing permissions and limitations
 * under the License.
 */
-package org.wso2.carbon.clustering.hazelcast.jsr107;
+package org.wso2.carbon.caching.jsr107;
 
 import org.testng.annotations.Test;
-import org.wso2.carbon.clustering.hazelcast.jsr107.eviction.LeastRecentlyUsedEvictionAlgorithm;
-import org.wso2.carbon.clustering.hazelcast.jsr107.eviction.MostRecentlyUsedEvictionAlgorithm;
-import org.wso2.carbon.clustering.hazelcast.jsr107.eviction.RandomEvictionAlgorithm;
+import org.wso2.carbon.caching.jsr107.eviction.LeastRecentlyUsedEvictionAlgorithm;
+import org.wso2.carbon.caching.jsr107.eviction.MostRecentlyUsedEvictionAlgorithm;
+import org.wso2.carbon.caching.jsr107.eviction.RandomEvictionAlgorithm;
 import org.wso2.carbon.context.PrivilegedCarbonContext;
 
 import javax.cache.Cache;
@@ -59,13 +59,13 @@ public class CachingTestCase {
         cache = cacheManager.getCache(cacheName);
     }
 
-    @Test(groups = {"org.wso2.carbon.clustering.hazelcast.jsr107"},
+    @Test(groups = {"org.wso2.carbon.caching.jsr107"},
           description = "")
     public void checkNonExistentItem() throws Exception {
         assertNull(cache.get(key));
     }
 
-    @Test(groups = {"org.wso2.carbon.clustering.hazelcast.jsr107"},
+    @Test(groups = {"org.wso2.carbon.caching.jsr107"},
           dependsOnMethods = "checkNonExistentItem",
           description = "")
     public void checkPut() throws Exception {
@@ -74,7 +74,7 @@ public class CachingTestCase {
         assertEquals(cache.get(key), sampleValue);
     }
 
-    @Test(groups = {"org.wso2.carbon.clustering.hazelcast.jsr107"},
+    @Test(groups = {"org.wso2.carbon.caching.jsr107"},
           description = "")
     public void checkMultipleCacheManagers() {
         String cacheName = "sampleCache";
@@ -96,7 +96,7 @@ public class CachingTestCase {
         assertNotEquals(cache2.get(key), value1);
     }
 
-    @Test(groups = {"org.wso2.carbon.clustering.hazelcast.jsr107"},
+    @Test(groups = {"org.wso2.carbon.caching.jsr107"},
           description = "")
     public void checkMultipleCaches() {
         CacheManager cacheManager = Caching.getCacheManagerFactory().getCacheManager("test-1");
@@ -115,7 +115,7 @@ public class CachingTestCase {
         assertNotEquals(cache2.get(key), value1);
     }
 
-    @Test(groups = {"org.wso2.carbon.clustering.hazelcast.jsr107"},
+    @Test(groups = {"org.wso2.carbon.caching.jsr107"},
           description = "")
     public void checkWithCustomCacheConfiguration() {
         CacheManager cacheManager = Caching.getCacheManagerFactory().getCacheManager("test");
@@ -128,7 +128,7 @@ public class CachingTestCase {
         assertEquals(cache.get(key).intValue(), value);
     }
 
-    @Test(groups = {"org.wso2.carbon.clustering.hazelcast.jsr107"},
+    @Test(groups = {"org.wso2.carbon.caching.jsr107"},
           expectedExceptions = {javax.cache.CacheException.class},
           dependsOnMethods = "checkWithCustomCacheConfiguration")
     public void testCreateExistingCache() {
@@ -140,7 +140,7 @@ public class CachingTestCase {
                 setStoreByValue(false).build();
     }
 
-    @Test(groups = {"org.wso2.carbon.clustering.hazelcast.jsr107"},
+    @Test(groups = {"org.wso2.carbon.caching.jsr107"},
           description = "")
     public void testSerializableObject() {
 
@@ -161,7 +161,7 @@ public class CachingTestCase {
         assertEquals(cache2.get(id).getName(), name);
     }
 
-    @Test(groups = {"org.wso2.carbon.clustering.hazelcast.jsr107"},
+    @Test(groups = {"org.wso2.carbon.caching.jsr107"},
           dependsOnMethods = "testSerializableObject",
           description = "")
     public void testRemoveObjectFromCache() {
@@ -176,7 +176,7 @@ public class CachingTestCase {
         assertNull(cache.get(id));
     }
 
-    @Test(groups = {"org.wso2.carbon.clustering.hazelcast.jsr107"},
+    @Test(groups = {"org.wso2.carbon.caching.jsr107"},
           description = "")
     public void testCacheIterator() {
         Long id = (long) 789;
@@ -196,7 +196,7 @@ public class CachingTestCase {
         assertEquals(entries, 4);
     }
 
-    @Test(groups = {"org.wso2.carbon.clustering.hazelcast.jsr107"},
+    @Test(groups = {"org.wso2.carbon.caching.jsr107"},
           description = "")
     public void testCacheLoaderLoadAll() {
         CacheManager cacheManager = Caching.getCacheManagerFactory().getCacheManager("test");
@@ -222,7 +222,7 @@ public class CachingTestCase {
         }
     }
 
-    @Test(groups = {"org.wso2.carbon.clustering.hazelcast.jsr107"},
+    @Test(groups = {"org.wso2.carbon.caching.jsr107"},
           description = "")
     public void testCacheLoaderLoad() {
         CacheManager cacheManager = Caching.getCacheManagerFactory().getCacheManager("test");
@@ -240,7 +240,7 @@ public class CachingTestCase {
         assertNotNull(cache.get("key1"));
     }
 
-    @Test(groups = {"org.wso2.carbon.clustering.hazelcast.jsr107"},
+    @Test(groups = {"org.wso2.carbon.caching.jsr107"},
           description = "")
     public void testCacheExpiry() {
         CacheManager cacheManager = Caching.getCacheManagerFactory().getCacheManager("testCacheExpiry-manager");
@@ -259,7 +259,7 @@ public class CachingTestCase {
         assertNull(cache.get(key));
     }
 
-    @Test(groups = {"org.wso2.carbon.clustering.hazelcast.jsr107"},
+    @Test(groups = {"org.wso2.carbon.caching.jsr107"},
           description = "")
     public void testMRUCacheEviction() {
         CacheManager cacheManager = Caching.getCacheManagerFactory().getCacheManager("testMRUCacheEviction-manager");
@@ -292,7 +292,7 @@ public class CachingTestCase {
         assertNull(cache.get(key2));
     }
 
-    @Test(groups = {"org.wso2.carbon.clustering.hazelcast.jsr107"},
+    @Test(groups = {"org.wso2.carbon.caching.jsr107"},
           description = "")
     public void testLRUCacheEviction() {
         CacheManager cacheManager = Caching.getCacheManagerFactory().getCacheManager("testLRUCacheEviction-manager");
@@ -325,7 +325,7 @@ public class CachingTestCase {
         assertNull(cache.get(key1));
     }
 
-    @Test(groups = {"org.wso2.carbon.clustering.hazelcast.jsr107"},
+    @Test(groups = {"org.wso2.carbon.caching.jsr107"},
           description = "")
     public void testRandomCacheEviction() {
         CacheManager cacheManager = Caching.getCacheManagerFactory().getCacheManager("testRandomCacheEviction-manager");
@@ -358,7 +358,7 @@ public class CachingTestCase {
         assertEquals(((CacheImpl) cache).getAll().size(), 2);
     }
 
-    @Test(groups = {"org.wso2.carbon.clustering.hazelcast.jsr107"},
+    @Test(groups = {"org.wso2.carbon.caching.jsr107"},
           description = "")
     public void testDefaultCacheEviction() {
         CacheManager cacheManager = Caching.getCacheManagerFactory().getCacheManager("testDefaultCacheEviction-manager");
@@ -370,7 +370,7 @@ public class CachingTestCase {
         assertEquals(((CacheImpl) cache).getAll().size(), CachingConstants.DEFAULT_CACHE_CAPACITY);
     }
 
-    @Test(groups = {"org.wso2.carbon.clustering.hazelcast.jsr107"},
+    @Test(groups = {"org.wso2.carbon.caching.jsr107"},
           description = "")
     public void testDefaultMRUCacheEviction() {
         CacheManager cacheManager = Caching.getCacheManagerFactory().getCacheManager("testDefaultMRUCacheEviction-manager");
@@ -383,7 +383,7 @@ public class CachingTestCase {
         assertEquals(((CacheImpl) cache).getAll().size(), CachingConstants.DEFAULT_CACHE_CAPACITY);
     }
 
-    @Test(groups = {"org.wso2.carbon.clustering.hazelcast.jsr107"},
+    @Test(groups = {"org.wso2.carbon.caching.jsr107"},
           description = "")
     public void testDefaultRandomCacheEviction() {
         CacheManager cacheManager = Caching.getCacheManagerFactory().getCacheManager("testDefaultRandomCacheEviction-manager");

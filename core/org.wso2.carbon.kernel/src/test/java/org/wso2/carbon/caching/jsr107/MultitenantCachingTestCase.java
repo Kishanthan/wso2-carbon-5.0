@@ -15,7 +15,7 @@
 * specific language governing permissions and limitations
 * under the License.
 */
-package org.wso2.carbon.clustering.hazelcast.jsr107;
+package org.wso2.carbon.caching.jsr107;
 
 import org.testng.annotations.Test;
 import org.wso2.carbon.context.PrivilegedCarbonContext;
@@ -51,7 +51,7 @@ public class MultitenantCachingTestCase {
         cache = cacheManager.getCache(cacheName);
     }
 
-    @Test(groups = {"org.wso2.carbon.clustering.hazelcast.jsr107.mt"},
+    @Test(groups = {"org.wso2.carbon.caching.jsr107.mt"},
           expectedExceptions = {SecurityException.class},
           description = "")
     public void testIllegalAccess() {
@@ -71,7 +71,7 @@ public class MultitenantCachingTestCase {
         }
     }
 
-    @Test(groups = {"org.wso2.carbon.clustering.hazelcast.jsr107.mt"},
+    @Test(groups = {"org.wso2.carbon.caching.jsr107.mt"},
           description = "")
     public void testLegalAccess() {
         Integer sampleValue = 1245;
@@ -90,7 +90,7 @@ public class MultitenantCachingTestCase {
         }
     }
 
-    @Test(groups = {"org.wso2.carbon.clustering.hazelcast.jsr107.mt"},
+    @Test(groups = {"org.wso2.carbon.caching.jsr107.mt"},
           description = "")
     public void testCreateCacheWithSameNameByTwoTenants() {
         Integer sampleValue = 1245;
@@ -142,7 +142,7 @@ public class MultitenantCachingTestCase {
         }
     }
 
-    @Test(groups = {"org.wso2.carbon.clustering.hazelcast.jsr107.mt"},
+    @Test(groups = {"org.wso2.carbon.caching.jsr107.mt"},
           description = "")
     public void testCreateCacheWithSameNameByTwoTenantsWithDefaultCacheManager() {
         Integer sampleValue = 1245;
@@ -191,7 +191,7 @@ public class MultitenantCachingTestCase {
         }
     }
 
-    @Test(groups = {"org.wso2.carbon.clustering.hazelcast.jsr107.mt"},
+    @Test(groups = {"org.wso2.carbon.caching.jsr107.mt"},
           description = "")
     public void testCacheBuilderForTenants() {
         String cacheName = "testCacheBuilderForTenants";
@@ -234,7 +234,7 @@ public class MultitenantCachingTestCase {
         }
     }
 
-    @Test(groups = {"org.wso2.carbon.clustering.hazelcast.jsr107.mt"},
+    @Test(groups = {"org.wso2.carbon.caching.jsr107.mt"},
           expectedExceptions = {javax.cache.CacheException.class},
           description = "")
     public void testCreateExistingCache() {
@@ -258,7 +258,7 @@ public class MultitenantCachingTestCase {
         }
     }
 
-    @Test(groups = {"org.wso2.carbon.clustering.hazelcast.jsr107.mt"},
+    @Test(groups = {"org.wso2.carbon.caching.jsr107.mt"},
           description = "")
     public void testCacheLoaderForTenants() {
         try {
