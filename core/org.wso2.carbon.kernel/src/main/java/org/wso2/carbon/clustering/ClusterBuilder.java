@@ -92,9 +92,7 @@ public class ClusterBuilder {
             Element paramEle = (Element) parameterList.item(i);
             Parameter parameter = new Parameter(paramEle.getAttribute("name"),
                                                 paramEle.getTextContent());
-
-//            paramEle./
-
+            parameter.setParameterElement(paramEle);
             clusteringAgent.addParameter(parameter);
         }
     }

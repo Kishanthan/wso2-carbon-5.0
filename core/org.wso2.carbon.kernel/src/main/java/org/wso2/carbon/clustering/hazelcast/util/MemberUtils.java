@@ -119,7 +119,6 @@ public final class MemberUtils {
         Parameter propsParam = getParameter("properties");
         if (propsParam != null) {
             Element paramEle = propsParam.getParameterElement();
-
             NodeList properties = paramEle.getElementsByTagName("property");
             int length = properties.getLength();
             for(int i = 0; i < length; i++){
