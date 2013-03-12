@@ -15,28 +15,23 @@
 * specific language governing permissions and limitations
 * under the License.
 */
-package org.wso2.carbon.base;
+package org.wso2.carbon.clustering;
+
+import org.testng.annotations.Test;
+
+import java.io.File;
 
 /**
  * TODO: class description
  */
-public class CarbonEnvironment {
-    private int primaryHttpPort;
-    private int primaryHttpsPort;
+public class ClusterBuilderTestCase {
 
-    public int getPrimaryHttpPort() {
-        return primaryHttpPort;
-    }
-
-    public void setPrimaryHttpPort(int primaryHttpPort) {
-        this.primaryHttpPort = primaryHttpPort;
-    }
-
-    public int getPrimaryHttpsPort() {
-        return primaryHttpsPort;
-    }
-
-    public void setPrimaryHttpsPort(int primaryHttpsPort) {
-        this.primaryHttpsPort = primaryHttpsPort;
+    @Test(groups = {"org.wso2.carbon.clustering"},
+          description = "")
+    public void testBuild() {
+        new ClusterBuilder(".." + File.separator + ".." + File.separator + "distribution" +
+                           File.separator + "carbon-home" +
+                           File.separator + "repository" + File.separator + "conf" +
+                           File.separator + "cluster.xml").build();
     }
 }

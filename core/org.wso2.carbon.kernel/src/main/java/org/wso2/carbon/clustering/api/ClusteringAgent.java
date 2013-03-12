@@ -19,6 +19,8 @@
 
 package org.wso2.carbon.clustering.api;
 
+import org.wso2.carbon.base.Parameter;
+
 import java.util.List;
 import java.util.Set;
 
@@ -57,7 +59,10 @@ import java.util.Set;
  * </p>
  */
 public interface ClusteringAgent {
-//public interface ClusteringAgent extends ParameterInclude {
+
+    void addParameter(Parameter parameter);
+
+    Parameter getParameter(String paramName);
 
     /**
      * Initialize this node, and join the cluster

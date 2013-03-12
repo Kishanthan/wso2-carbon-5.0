@@ -91,6 +91,16 @@ public class HazelcastClusteringAgent implements ClusteringAgent {
 
     private ParameterHolder paramHolder = new ParameterHolder();
 
+    @Override
+    public void addParameter(Parameter parameter) {
+        paramHolder.addParameter(parameter);
+    }
+
+    @Override
+    public Parameter getParameter(String paramName) {
+        return paramHolder.getParameter(paramName);
+    }
+
     public void init() throws ClusteringException {
         MemberUtils.init(paramHolder.getParameterMap());
 

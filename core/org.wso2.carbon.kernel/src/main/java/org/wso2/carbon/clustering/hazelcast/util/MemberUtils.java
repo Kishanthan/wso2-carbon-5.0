@@ -20,18 +20,13 @@ package org.wso2.carbon.clustering.hazelcast.util;
 import com.hazelcast.config.TcpIpConfig;
 import com.hazelcast.core.HazelcastInstance;
 import com.hazelcast.core.IMap;
-import org.apache.axiom.om.OMAttribute;
-import org.apache.axiom.om.OMElement;
-import org.wso2.carbon.base.Parameter;
-import org.wso2.carbon.clustering.api.ClusteringConstants;
-import org.wso2.carbon.clustering.api.Member;
-//import org.apache.axis2.context.ConfigurationContext;
-//import org.apache.axis2.description.Parameter;
-//import org.apache.axis2.description.TransportInDescription;
-//import org.apache.axis2.engine.AxisConfiguration;
-//import org.apache.axis2.util.JavaUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+import org.wso2.carbon.base.CarbonEnvironment;
+import org.wso2.carbon.base.Parameter;
+import org.wso2.carbon.clustering.api.Member;
 
 import javax.xml.namespace.QName;
 import java.io.IOException;
@@ -43,13 +38,19 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
 
+//import org.apache.axis2.context.ConfigurationContext;
+//import org.apache.axis2.description.Parameter;
+//import org.apache.axis2.description.TransportInDescription;
+//import org.apache.axis2.engine.AxisConfiguration;
+//import org.apache.axis2.util.JavaUtils;
+
 /**
  * Utility methods for member manipulation
  */
 public final class MemberUtils {
     private static final Log log = LogFactory.getLog(MemberUtils.class);
     private static Map<String, Parameter> parameters;
-//    private static ConfigurationContext configurationContext;
+    //    private static ConfigurationContext configurationContext;
     private static boolean isInitialized;
 
     public static void init(Map<String, Parameter> parameters) {
@@ -95,43 +96,21 @@ public final class MemberUtils {
             throw new IllegalStateException("MemberUtils not initialized. Call MemberUtils.init() first");
         }
         Member member =
-                new Member(localMemberHost,localMemberPort);
+                new Member(localMemberHost, localMemberPort);
         Properties memberInfo = new Properties();
 
         // TODO: Fix transport info retrieval below
 
-        /*AxisConfiguration axisConfig = configurationContext.getAxisConfiguration();
-        TransportInDescription httpTransport = axisConfig.getTransportIn("http");
+        CarbonEnvironment cenv = new CarbonEnvironment(); //TODO: get proper CarbonEnvironment
+
         int portOffset = 0;
-        Parameter param = getParameter(ClusteringConstants.Parameters.AVOID_INITIATION);
-        if (param != null && !JavaUtils.isTrueExplicitly(param.getValue())) {
-            //AvoidInitialization = false, Hence we set the portOffset
-            if (System.getProperty("portOffset") != null) {
-                portOffset = Integer.parseInt(System.getProperty("portOffset"));
-            }
+        if (System.getProperty("portOffset") != null) {
+            portOffset = Integer.parseInt(System.getProperty("portOffset"));
         }
-
-        if (httpTransport != null) {
-            Parameter port = httpTransport.getParameter("port");
-            if (port != null) {
-                int httpPort = Integer.valueOf((String) port.getValue()) + portOffset;
-                member.setHttpPort(httpPort);
-
-            }
-        }
-        TransportInDescription httpsTransport = axisConfig.getTransportIn("https");
-        if (httpsTransport != null) {
-            Parameter port = httpsTransport.getParameter("port");
-            if (port != null) {
-                int httpsPort = Integer.valueOf((String) port.getValue()) + portOffset;
-                member.setHttpsPort(httpsPort);
-            }
-        }
-        Parameter isActiveParam = getParameter(ClusteringConstants.Parameters.IS_ACTIVE);
-        if (isActiveParam != null) {
-            memberInfo.setProperty(ClusteringConstants.Parameters.IS_ACTIVE,
-                                   (String) isActiveParam.getValue());
-        }
+        int httpPort = cenv.getPrimaryHttpPort() + portOffset;
+        member.setHttpPort(httpPort);
+        int httpsPort = cenv.getPrimaryHttpsPort() + portOffset;
+        member.setHttpsPort(httpsPort);
 
         if (localMemberHost != null) {
             memberInfo.setProperty("hostName", localMemberHost);
@@ -139,23 +118,17 @@ public final class MemberUtils {
 
         Parameter propsParam = getParameter("properties");
         if (propsParam != null) {
-            OMElement paramEle = propsParam.getParameterElement();
-            for (Iterator iter = paramEle.getChildrenWithLocalName("property"); iter.hasNext(); ) {
-                OMElement propEle = (OMElement) iter.next();
-                OMAttribute nameAttrib = propEle.getAttribute(new QName("name"));
-                if (nameAttrib != null) {
-                    String attribName = nameAttrib.getAttributeValue();
-                    attribName = replaceProperty(attribName, memberInfo);
+            Element paramEle = propsParam.getParameterElement();
 
-                    OMAttribute valueAttrib = propEle.getAttribute(new QName("value"));
-                    if (valueAttrib != null) {
-                        String attribVal = valueAttrib.getAttributeValue();
-                        attribVal = replaceProperty(attribVal, memberInfo);
-                        memberInfo.setProperty(attribName, attribVal);
-                    }
-                }
+            NodeList properties = paramEle.getElementsByTagName("property");
+            int length = properties.getLength();
+            for(int i = 0; i < length; i++){
+                Element property = (Element) properties.item(i);
+                String name = property.getAttribute("name");
+                String value = property.getAttribute("value");
+                memberInfo.setProperty(name, replaceProperty(value, memberInfo));
             }
-        }*/
+        }
 
         memberInfo.remove("hostName"); // this was needed only to populate other properties. No need to send it.
         member.setProperties(memberInfo);

@@ -17,6 +17,8 @@
 */
 package org.wso2.carbon.base;
 
+import org.w3c.dom.Element;
+
 /**
  * TODO: class description
  */
@@ -24,14 +26,20 @@ public class Parameter {
 
     private String name;
     private Object value;
+    private Element parameterElement;
 
     public Parameter(String name) {
         this.name = name;
     }
 
-    public Parameter(String name, String Object) {
+    public Parameter(String name, Object value) {
         this.name = name;
         this.value = value;
+    }
+
+    public Parameter(String name, Element parameterElement) {
+        this(name, (Object) parameterElement);
+        this.parameterElement = parameterElement;
     }
 
     public String getName() {
@@ -44,5 +52,15 @@ public class Parameter {
 
     public void setValue(Object value) {
         this.value = value;
+        this.parameterElement = null;
+    }
+
+    public Element getParameterElement() {
+        return parameterElement;
+    }
+
+    public void setParameterElement(Element parameterElement) {
+        this.parameterElement = parameterElement;
+        this.value = parameterElement;
     }
 }
