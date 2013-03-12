@@ -7,7 +7,7 @@
  corresponding to the "class" attribute of the "clustering" element. It is also responsible for
  getting this node to join the cluster.
  -->
-<cluster class="org.apache.axis2.clustering.tribes.TribesClusteringAgent" enable="false">
+<cluster class="org.wso2.carbon.clustering.hazelcast.HazelcastClusteringAgent" enable="false">
 
     <!--
        The membership scheme used in this setup. The only values supported at the moment are
