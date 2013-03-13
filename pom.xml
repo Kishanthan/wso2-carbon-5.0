@@ -44,6 +44,7 @@
             </activation>
             <modules>
                 <module>dependencies/orbit/naming</module>
+                <module>dependencies/orbit/hazelcast/2.5.wso2v1</module>
                 <module>parent</module>
                 <module>bootstrap</module>
                 <module>core</module>
