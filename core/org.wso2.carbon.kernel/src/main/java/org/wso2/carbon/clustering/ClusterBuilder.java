@@ -48,6 +48,7 @@ public class ClusterBuilder {
 
     public void build() {
         try {
+            log.info("Initializing cluster...");
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
             Document doc = dBuilder.parse(clusterConfigFile);
@@ -106,7 +107,8 @@ public class ClusterBuilder {
         return enabled;
     }
 
-    private void loadGroupManagement(ClusteringAgent clusteringAgent, Element clusterElement) throws ClusteringException {
+    private void loadGroupManagement(ClusteringAgent clusteringAgent,
+                                     Element clusterElement) throws ClusteringException {
         Element lbEle = (Element) clusterElement.getElementsByTagName("groupManagement").item(0);
         if (lbEle != null) {
             if (isEnabled(lbEle)) {

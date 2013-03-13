@@ -27,6 +27,7 @@ import org.wso2.carbon.base.CarbonBaseUtils;
 import org.wso2.carbon.base.ServerConfiguration;
 import org.wso2.carbon.base.ServerConfigurationException;
 import org.wso2.carbon.api.ServerConfigurationService;
+import org.wso2.carbon.clustering.ClusterBuilder;
 import org.wso2.carbon.exception.CarbonException;
 
 import java.io.*;
@@ -51,8 +52,10 @@ public class CarbonBaseServiceComponent {
         //NIO transport make use of this system property
         System.setProperty("portOffset", portOffset);
         //register carbon server confg as an OSGi service
-        registration = componentContext.getBundleContext().registerService(ServerConfigurationService.class.getName(), carbonServerConfiguration, null);
+        registration = componentContext.getBundleContext().registerService(ServerConfigurationService.class.getName(),
+                                                                           carbonServerConfiguration, null);
 
+        new ClusterBuilder(CarbonBaseUtils.getCarbonConfigDirPath() + File.separator + "cluster.xml").build();
     }
 
     protected void setSecureVaultService(SecureVaultService secureVaultService) {

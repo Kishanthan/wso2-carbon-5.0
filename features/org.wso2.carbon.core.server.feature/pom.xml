@@ -67,6 +67,7 @@
                                 <bundleDef>org.apache.tomcat.wso2:jdbc-pool:7.0.28.wso2v1</bundleDef>
                                 <bundleDef>org.apache.tomcat.wso2:apache.naming:7.0.34.wso2v1</bundleDef>
                                 <bundleDef>commons-io.wso2:commons-io:2.0.0.wso2v2</bundleDef>
+                                <!--<bundleDef>com.hazelcast:hazelcast-all:2.5.wso2v1</bundleDef>-->
                             </bundles>
                         </configuration>
                     </execution>

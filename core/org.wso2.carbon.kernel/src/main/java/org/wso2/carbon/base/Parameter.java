@@ -52,7 +52,6 @@ public class Parameter {
 
     public void setValue(Object value) {
         this.value = value;
-        this.parameterElement = null;
     }
 
     public Element getParameterElement() {
@@ -61,6 +60,5 @@ public class Parameter {
 
     public void setParameterElement(Element parameterElement) {
         this.parameterElement = parameterElement;
-        this.value = parameterElement;
     }
 }
