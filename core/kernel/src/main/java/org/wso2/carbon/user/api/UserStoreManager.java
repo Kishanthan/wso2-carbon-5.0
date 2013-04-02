@@ -402,14 +402,6 @@ public interface UserStoreManager {
      */
     int getTenantId() throws UserStoreException;
 
-    /**
-     * Gets the properties of the Tenant.
-     * 
-     * @param tenant
-     * @return
-     * @throws UserStoreException
-     */
-    Map<String, String> getProperties(Tenant tenant) throws UserStoreException;
 
     /**
      * Update the role name of given role

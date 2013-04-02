@@ -25,10 +25,10 @@ import org.wso2.carbon.constants.MultitenantConstants;
 import org.wso2.carbon.context.internal.CarbonContextDataHolder;
 import org.wso2.carbon.context.internal.OSGiDataHolder;
 import org.wso2.carbon.registry.api.Registry;
-import org.wso2.carbon.user.api.TenantManager;
+import org.wso2.carbon.tenant.mgt.TenantManagementException;
+import org.wso2.carbon.tenant.mgt.TenantManagementService;
+import org.wso2.carbon.tenant.mgt.TenantManager;
 import org.wso2.carbon.user.api.UserRealm;
-import org.wso2.carbon.user.api.UserRealmService;
-import org.wso2.carbon.user.api.UserStoreException;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
@@ -281,7 +281,7 @@ public class PrivilegedCarbonContext extends CarbonContext {
             try {
                 log.debug("Resolving tenant domain from tenant id");
                 setTenantDomain(tenantManager.getDomain(tenantId));
-            } catch (UserStoreException ignored) {
+            } catch (TenantManagementException ignored) {
                 // Exceptions in here, are due to issues with DB Connections. The UM Kernel takes
                 // care of logging these exceptions. For us, this is of no importance. This is
                 // because we are only attempting to resolve the tenant domain, which might not
@@ -301,7 +301,7 @@ public class PrivilegedCarbonContext extends CarbonContext {
             try {
                 log.debug("Resolving tenant id from tenant domain");
                 setTenantId(tenantManager.getTenantId(tenantDomain));
-            } catch (UserStoreException ignored) {
+            } catch (TenantManagementException ignored) {
                 // Exceptions in here, are due to issues with DB Connections. The UM Kernel takes
                 // care of logging these exceptions. For us, this is of no importance. This is
                 // because we are only attempting to resolve the tenant id, which might not always
@@ -311,16 +311,16 @@ public class PrivilegedCarbonContext extends CarbonContext {
     }
 
     /**
-     * Utility method to obtain the tenant manager from the realm service. This will only work in an
+     * Utility method to obtain the tenant manager from the tenant management service. This will only work in an
      * OSGi environment.
      *
      * @return tenant manager.
      */
     private TenantManager getTenantManager() {
         try {
-            UserRealmService realmService = dataHolder.getUserRealmService();
-            if (realmService != null) {
-                return realmService.getTenantManager();
+            TenantManagementService tenantManagementService = dataHolder.getTenantManagementService();
+            if (tenantManagementService != null) {
+                return tenantManagementService.getTenantManager();
             }
         } catch (Exception ignored) {
             // We don't mind any exception occurring here. Our intention is provide a tenant manager

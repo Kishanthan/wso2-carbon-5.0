@@ -30,19 +30,6 @@ public interface UserRealmService {
     UserRealm getBootstrapRealm() throws UserStoreException;
 
     /**
-     * @param tenantManager
-     * @throws UserStoreException
-     */
-    void setTenantManager(TenantManager tenantManager) throws UserStoreException;
-
-    /**
-     * Get tenant manager
-     *
-     * @return TenantManager
-     */
-    TenantManager getTenantManager();
-
-    /**
      * Only returns if available in cache.
      *
      * @param tenantId
@@ -57,9 +44,5 @@ public interface UserRealmService {
      */
     RealmConfiguration getBootstrapRealmConfiguration();
 
-    /**
-     * Get tenant mgt configuration read from tenant-mgt.xml
-     */
-    TenantMgtConfiguration getTenantMgtConfiguration();
     
 }

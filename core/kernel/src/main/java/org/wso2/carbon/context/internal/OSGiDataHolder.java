@@ -22,6 +22,7 @@ import org.apache.commons.logging.LogFactory;
 import org.osgi.framework.BundleContext;
 import org.wso2.carbon.api.ServerConfigurationService;
 import org.wso2.carbon.registry.api.RegistryService;
+import org.wso2.carbon.tenant.mgt.TenantManagementService;
 import org.wso2.carbon.user.api.UserRealmService;
 
 /**
@@ -35,6 +36,7 @@ public class OSGiDataHolder {
     private RegistryService registryService;
     private ServerConfigurationService serverConfigurationService;
     private UserRealmService userRealmService;
+    private TenantManagementService tenantManagementService;
 
     public static OSGiDataHolder getInstance() {
         return instance;
@@ -84,5 +86,13 @@ public class OSGiDataHolder {
             log.error(msg);
         }
         return this.serverConfigurationService;
+    }
+
+    public TenantManagementService getTenantManagementService() {
+        return tenantManagementService;
+    }
+
+    public void setTenantManagementService(TenantManagementService tenantManagementService) {
+        this.tenantManagementService = tenantManagementService;
     }
 }

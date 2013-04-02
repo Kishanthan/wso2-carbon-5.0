@@ -1,5 +1,5 @@
 /*
- *  Copyright (c) 2005-2008, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ *  Copyright (c) 2005-2013, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
  *
  *  WSO2 Inc. licenses this file to you under the Apache License,
  *  Version 2.0 (the "License"); you may not use this file except
@@ -16,7 +16,10 @@
  *  under the License.
  *
  */
-package org.wso2.carbon.user.api;
+
+package org.wso2.carbon.tenant.mgt;
+
+import org.wso2.carbon.user.api.RealmConfiguration;
 
 import java.util.Date;
 
